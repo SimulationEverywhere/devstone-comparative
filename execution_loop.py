@@ -21,7 +21,7 @@ flatten = False
 num_execs = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 
 engines = {"xdevs-python": XDEVS_PYTHON_CMD,
-           "xdevs-java" : XDEVS_JAVA_CMD,
+           "xdevs-java": XDEVS_JAVA_CMD,
            "pypdevs": PYPDEVS_CMD,
            "pypdevs-min": PYPDEVS_MIN_CMD,
            "cadmium": CADMIUM_CMD,
