@@ -2,3 +2,19 @@
 	path = simulators/xdevs-java
 	url = https://github.com/jlrisco/xdevs.git
 	branch = java
+[submodule "xdevs-python"]
+	path = simulators/xdevs-python
+	url = https://github.com/jlrisco/xdevs.git
+	branch = perfdevs
+[submodule "cadmium"]
+	path = simulators/cadmium
+	url = https://github.com/SimulationEverywhere/cadmium.git
+[submodule "CDBoost"]
+	path = simulators/cdboost
+	url = https://github.com/SimulationEverywhere/cdboost.git
+[submodule "aDEVS"]
+	path = simulators/adevs
+	url = https://github.com/smiz/adevs.git
+[submodule "PythonPDEVS"]
+	path = simulators/pythonpdevs
+	url = http://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
