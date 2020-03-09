@@ -1,0 +1,6 @@
+/home/kevin/devstone/CMakeFiles/edit_cache.dir
+/home/kevin/devstone/CMakeFiles/rebuild_cache.dir
+/home/kevin/devstone/CMakeFiles/cdboost-devstone.dir
+/home/kevin/devstone/CMakeFiles/cadmium-dynamic-conc-devstone.dir
+/home/kevin/devstone/CMakeFiles/cadmium-dynamic-devstone.dir
+/home/kevin/devstone/CMakeFiles/cadmium-devstone.dir
