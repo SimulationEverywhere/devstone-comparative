@@ -1,0 +1,4 @@
+[submodule "xdevs-java"]
+	path = simulators/xdevs-java
+	url = https://github.com/jlrisco/xdevs.git
+	branch = java

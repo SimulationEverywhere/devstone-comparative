@@ -1,2 +1,0 @@
-loadFile("HelloWorld.mo");
-translateModelFMU(HelloWorld,"2.0");

@@ -1,3 +1,0 @@
-loadFile("ControlTrajectory.mo");
-loadFile("Control.mo");
-translateModelFMU(Control,"2.0");

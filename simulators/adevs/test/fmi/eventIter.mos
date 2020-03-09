@@ -1,2 +1,0 @@
-loadFile("eventIter.mo");
-translateModelFMU(eventIter,"2.0");

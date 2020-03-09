@@ -1,2 +1,0 @@
-loadFile("pendulum.mo");
-translateModelFMU(pendulum,"2.0");
