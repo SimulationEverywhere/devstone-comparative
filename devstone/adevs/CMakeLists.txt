@@ -9,4 +9,4 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(DEVStone src/DEVStone.cpp src/DummyAtomic.cpp src/DEVSWrapper.cpp src/li.cpp)
+add_executable(DEVStone src/DEVStone.cpp src/DummyAtomic.cpp src/DEVSWrapper.cpp src/li.cpp src/hoMod.cpp src/hi.cpp src/hi.hpp src/ho.cpp src/ho.hpp)

@@ -12,7 +12,5 @@ DEVSWrapper(depthIn, widthIn, intDelayIn, extDelayIn, procTimeIn)
         add(c);
         couple(this, this->in, c, c->in);
         couple(c, c->out, this, this->out);
-
-
     }
 }
