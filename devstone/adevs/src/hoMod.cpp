@@ -29,15 +29,39 @@ adevs::Digraph<int*>()
         couple(this, this->in1, c, c->in1);
         couple(c, c->out, this, this->out);
         if (width > 1) {
-            std::map<int, std::list<DummyAtomic>> atomics;
+            std::map<int, std::list<DummyAtomic*>> atomics;
             for (int i = 0; i < width; i++) {
                 int minRowIdx = (i < 2)? 0 : (i - 1);
                 for (int j = minRowIdx; j < width - 1; j++) {
                     DummyAtomic *a = new DummyAtomic(intDelay, extDelay, procTime);
                     add(a);
-                    if(atomics.find("f") == atomics.end()
-                        atomics.put(i, new LinkedList<>());
-                    atomics.get(i).add(atomic);
+
+                    atomics.insert(std::pair<int, list<DummyAtomic*>>(i, std::list<DummyAtomic*>()));  // en teoria insert no machaca
+                    atomics.find(i)->second.push_back(a);
+                }
+            }
+            // Connect EIC
+            for (auto a: atomics.find(0)->second) {
+                couple(this, this->in2, a, a->in);
+            }
+            for (int i = 1; i < width; i++) {
+                DummyAtomic *a = atomics.find(i)->second.front();
+                couple(this, this->in2, a, a->in);
+            }
+            // Connect IC
+            for (auto a: atomics.find(0)->second) {
+                couple(a, a->out, c, c->in2);
+            }
+            for (int i = 0; i < atomics.find(1)->second.size(); i++) {
+                DummyAtomic *aDown = *std::next(atomics.find(1)->second.begin(), i);
+                DummyAtomic *aTop = *std::next(atomics.find(0)->second.begin(), i);
+                couple(aDown, aDown->out, aTop, aTop->in);
+            }
+            for (int i = 2; i < width; i++) {
+                for (int j = 0; j < atomics.find(i)->second.size(); j++) {
+                    DummyAtomic *aFrom = *std::next(atomics.find(i)->second.begin(), j);
+                    DummyAtomic *aTo = *std::next(atomics.find(i - 1)->second.begin(), j + 1);
+                    couple(aFrom, aFrom->out, aTo, aTo->in);
                 }
             }
         }
