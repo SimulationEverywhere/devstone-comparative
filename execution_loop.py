@@ -5,7 +5,7 @@ import time
 sys.setrecursionlimit(10000)
 
 XDEVS_PYTHON_CMD = ""
-XDEVS_JAVA_CMD = ""
+XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone HI 10 10 0 0 chained false"
 PYPDEVS_CMD = ""
 PYPDEVS_MIN_CMD = ""
 CADMIUM_CMD = ""
