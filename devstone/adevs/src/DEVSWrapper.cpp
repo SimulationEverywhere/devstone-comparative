@@ -8,7 +8,7 @@ const int DEVSWrapper::in = 0;
 const int DEVSWrapper::out = 1;
 
 DEVSWrapper::DEVSWrapper(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn):
-        adevs::Digraph<IO_Type>()
+        adevs::Digraph<int*>()
 {
     depth = depthIn;
     width = widthIn;
@@ -22,16 +22,11 @@ DEVSWrapper::DEVSWrapper(int depthIn, int widthIn, int intDelayIn, int extDelayI
         couple(this, this->in, a, a->in);
         couple(a, a->out, this, this->out);
     } else {
-        DEVSWrapper c = generateCoupled();
-        add(c);
-        couple(this, this->in, c, c->in);
-        couple(c, c->out, this, this->out);
-    }
-    for (int i = 0; i < width - 1; ++i) {
-        DummyAtomic a = DummyAtomic(intDelay, extDelay, procTime);
-        add(a);
+        for (int i = 0; i < width - 1; ++i) {
+            DummyAtomic *a = new DummyAtomic(intDelay, extDelay, procTime);
+            add(a);
+            couple(this, this->in, a, a->in);
+            couple(a, a->out, this, this->out);
+        }
     }
 }
-
-
-

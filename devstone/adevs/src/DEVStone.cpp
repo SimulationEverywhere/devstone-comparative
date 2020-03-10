@@ -4,10 +4,9 @@
 
 
 #include "DEVStone.hpp"
-//#include "DEVSWrapper.hpp"
-#include "DummyAtomic.hpp"
+#include "li.hpp"
 
 int main() {
- DummyAtomic a = DummyAtomic(0, 0, 0.0);
+    LI c = LI(2, 1, 0, 0, 0.0);
  return 0;
 }

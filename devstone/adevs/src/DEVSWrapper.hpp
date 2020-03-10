@@ -10,10 +10,10 @@
 #include "DummyAtomic.hpp"
 
 
-class DEVSWrapper: public adevs::Digraph<IO_Type> {
-private:
-    int depth;
-    int width;
+class DEVSWrapper: public adevs::Digraph<int*>
+{
+protected:
+    int depth, width;
     int intDelay, extDelay;
     double procTime;
 public:
@@ -23,7 +23,6 @@ public:
     static const int out;
     /// Constructor
     DEVSWrapper(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
-    virtual DEVSWrapper generateCoupled();
 };
 
 #endif //DEVSTONE_ADEVS_DEVSWRAPPER_HPP
