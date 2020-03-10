@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cdboost-devstone.dir/src/cdboost-devstone.cpp.o"
-  "cdboost-devstone"
   "cdboost-devstone.pdb"
+  "cdboost-devstone"
 )
 
 # Per-language clean rules from dependency scanning.

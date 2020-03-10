@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/kevin/devstone/dhry/dhry.h
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry.h
 time.h
 -
 sys/types.h
@@ -20,23 +20,41 @@ string.h
 stdlib.h
 -
 
-/home/kevin/devstone/dhry/dhry_1.c
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry_1.c
 dhry.h
-/home/kevin/devstone/dhry/dhry.h
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry.h
 dhry_2.c
-/home/kevin/devstone/dhry/dhry_2.c
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry_2.c
 
-/home/kevin/devstone/dhry/dhry_2.c
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry_2.c
 dhry.h
-/home/kevin/devstone/dhry/dhry.h
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry.h
 
-/home/kevin/devstone/src/cdboost-devstone-atomic.hpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-atomic-pair.hpp
 boost/simulation/pdevs/atomic.hpp
 -
 ../dhry/dhry_1.c
-/home/kevin/devstone/dhry/dhry_1.c
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry_1.c
 
-/home/kevin/devstone/src/cdboost-devstone.cpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-atomic.hpp
+boost/simulation/pdevs/atomic.hpp
+-
+../dhry/dhry_1.c
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/dhry/dhry_1.c
+
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-filter.hpp
+boost/simulation/pdevs/atomic.hpp
+-
+
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-input-stream-pair.hpp
+istream
+-
+sstream
+-
+boost/simulation/pdevs/atomic.hpp
+-
+
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone.cpp
 iostream
 -
 chrono
@@ -50,7 +68,13 @@ boost/program_options.hpp
 boost/simulation.hpp
 -
 cdboost-devstone-atomic.hpp
-/home/kevin/devstone/src/cdboost-devstone-atomic.hpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-atomic.hpp
+cdboost-devstone-atomic-pair.hpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-atomic-pair.hpp
+cdboost-devstone-filter.hpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-filter.hpp
+cdboost-devstone-input-stream-pair.hpp
+/home/kevin/devstone-comparative/simulators/cadmium_cdboost/src/cdboost-devstone-input-stream-pair.hpp
 
 simulators/cdboost/include/boost/simulation.hpp
 boost/simulation/pdevs/atomic.hpp
