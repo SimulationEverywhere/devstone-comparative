@@ -1,4 +1,4 @@
-# Install script for directory: /home/kevin/devstone
+# Install script for directory: /home/kevin/devstone-comparative/simulators/cadmium_cdboost
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/kevin/devstone/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/kevin/devstone-comparative/simulators/cadmium_cdboost/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cadmium-devstone.dir/src/cadmium-devstone.cpp.o"
-  "cadmium-devstone"
   "cadmium-devstone.pdb"
+  "cadmium-devstone"
 )
 
 # Per-language clean rules from dependency scanning.
