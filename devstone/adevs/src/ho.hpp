@@ -5,9 +5,12 @@
 #ifndef DEVSTONE_ADEVS_HO_HPP
 #define DEVSTONE_ADEVS_HO_HPP
 
+#include <adevs.h>
+#include "DEVStone.hpp"
+#include "DEVSWrapper.hpp"
 
-class HO {
-
+class HO: public DEVSWrapper {
+    HO(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
 };
 
 

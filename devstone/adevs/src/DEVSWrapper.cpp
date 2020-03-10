@@ -25,8 +25,7 @@ DEVSWrapper::DEVSWrapper(int depthIn, int widthIn, int intDelayIn, int extDelayI
         for (int i = 0; i < width - 1; ++i) {
             DummyAtomic *a = new DummyAtomic(intDelay, extDelay, procTime);
             add(a);
-            couple(this, this->in, a, a->in);
-            couple(a, a->out, this, this->out);
+            atomics.push_back(a);
         }
     }
 }

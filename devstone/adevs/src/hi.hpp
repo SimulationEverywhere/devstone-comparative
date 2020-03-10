@@ -5,9 +5,14 @@
 #ifndef DEVSTONE_ADEVS_HI_HPP
 #define DEVSTONE_ADEVS_HI_HPP
 
+#include <adevs.h>
+#include "DEVStone.hpp"
+#include "DEVSWrapper.hpp"
 
-class HI {
-
+class HI: public DEVSWrapper
+{
+public:
+    HI(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
 };
 
 

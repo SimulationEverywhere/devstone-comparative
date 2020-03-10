@@ -8,7 +8,7 @@
 #include <adevs.h>
 #include "DEVStone.hpp"
 #include "DummyAtomic.hpp"
-
+#include <vector>
 
 class DEVSWrapper: public adevs::Digraph<int*>
 {
@@ -16,6 +16,7 @@ protected:
     int depth, width;
     int intDelay, extDelay;
     double procTime;
+    std::vector<DummyAtomic*> atomics;
 public:
     /// Model input port
     static const int in;
