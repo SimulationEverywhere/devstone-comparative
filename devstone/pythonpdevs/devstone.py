@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from collections import defaultdict
 
-from examples.devstone.pystone import pystones
+from pystone import pystones
 from pypdevs.DEVS import AtomicDEVS, CoupledDEVS
 from pypdevs.infinity import INFINITY
 from pypdevs.simulator import Simulator
@@ -34,7 +34,8 @@ class DelayedAtomic(AtomicDEVS):
 
     def outputFnc(self):
         if hasattr(self, "o_out"):
-            return {self.o_out: 0}
+            return {self.o_out: [0]}
+        return {}
 
     def extTransition(self, inputs):
         if self.ext_delay:
@@ -105,7 +106,7 @@ class LI(DEVStoneWrapper):
 class HI(DEVStoneWrapper):
 
     def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float):
-        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=False)
+        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=True)
 
         if len(self.component_set) > 1:
             assert isinstance(self.component_set[-1], AtomicDEVS)
