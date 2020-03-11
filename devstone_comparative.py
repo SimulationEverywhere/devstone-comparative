@@ -8,8 +8,10 @@ import time
 sys.setrecursionlimit(10000)
 
 XDEVS_PYTHON_CMD = ""
-XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
-XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
+XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
+XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
+XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
+XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
 PYPDEVS_CMD = ""
 PYPDEVS_MIN_CMD = ""
 CADMIUM_CMD = ""
@@ -28,6 +30,8 @@ RE_SIM_TIMES = r"Model creation time: ?([0-9.e-]+) ?.*Engine set ?up time: ?([0-
 engines = {"xdevs-python": XDEVS_PYTHON_CMD,
            "xdevs-java": XDEVS_JAVA_CMD,
            "xdevs-java-chained": XDEVS_JAVA_CHAINED_CMD,
+           "xdevs-java-parallel": XDEVS_JAVA_PARALLEL_CMD,
+           "xdevs-java-parallel-chained": XDEVS_JAVA_PARALLEL_CHAINED_CMD,
            "pypdevs": PYPDEVS_CMD,
            "pypdevs-min": PYPDEVS_MIN_CMD,
            "cadmium": CADMIUM_CMD,
@@ -105,6 +109,10 @@ with open(args.out_file, "w") as csv_file:
             for depth, width, int_cycles, ext_cycles in args.params:
                 engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles, ext_cycles=ext_cycles)
                 for i_exec in range(args.num_rep):
+
+                    if not engine_cmd_f:
+                        continue
+
                     print(engine_cmd_f)
 
                     # Open subprocess
