@@ -7,7 +7,7 @@
 
 #include <adevs.h>
 #include <list>
-#include "DEVStone.hpp"
+#include "utils.hpp"
 
 
 class DummyAtomic: public adevs::Atomic<IO_Type> {

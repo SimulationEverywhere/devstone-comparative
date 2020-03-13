@@ -5,8 +5,18 @@
 #ifndef DEVSTONE_ADEVS_DEVSTONE_HPP
 #define DEVSTONE_ADEVS_DEVSTONE_HPP
 
-#include <adevs.h>
+#include <boost/program_options.hpp>
+#include <iostream>
+#include <chrono>
 
-typedef adevs::PortValue<int*> IO_Type;  // Define the type of the messages to be sent
+#include "utils.hpp"
+#include "li.hpp"
+#include "hi.hpp"
+#include "ho.hpp"
+#include "hoMod.hpp"
+
+using namespace std;
+namespace po=boost::program_options;
+using hclock=chrono::high_resolution_clock;
 
 #endif //DEVSTONE_ADEVS_DEVSTONE_HPP

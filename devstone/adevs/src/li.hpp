@@ -5,12 +5,10 @@
 #ifndef DEVSTONE_ADEVS_LI_HPP
 #define DEVSTONE_ADEVS_LI_HPP
 
-#include <adevs.h>
-#include "DEVStone.hpp"
+#include "utils.hpp"
 #include "DEVSWrapper.hpp"
 
-class LI: public DEVSWrapper
-{
+class LI: public DEVSWrapper {
 public:
     LI(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
 };

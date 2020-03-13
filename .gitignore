@@ -5,3 +5,5 @@ cmake-build-debug/
 build/
 
 .DS_Store
+
+__pycache__

@@ -5,8 +5,7 @@
 #ifndef DEVSTONE_ADEVS_HOMOD_HPP
 #define DEVSTONE_ADEVS_HOMOD_HPP
 
-#include <adevs.h>
-#include "DEVStone.hpp"
+#include "utils.hpp"
 #include "DummyAtomic.hpp"
 
 

@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
 
     auto runner_init = hclock::now();
 
-    std::cout << "Runner setup time: " << std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1>>>(runner_init - model_init).count() << " seconds" << std::endl;
+    std::cout << "Engine setup time: " << std::chrono::duration_cast<std::chrono::duration<double, std::ratio<1>>>(runner_init - model_init).count() << " seconds" << std::endl;
 
     r.run_until(1000000);
 

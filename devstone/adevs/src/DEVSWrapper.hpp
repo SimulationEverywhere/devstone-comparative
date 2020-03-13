@@ -5,8 +5,7 @@
 #ifndef DEVSTONE_ADEVS_DEVSWRAPPER_HPP
 #define DEVSTONE_ADEVS_DEVSWRAPPER_HPP
 
-#include <adevs.h>
-#include "DEVStone.hpp"
+#include "utils.hpp"
 #include "DummyAtomic.hpp"
 #include <vector>
 
