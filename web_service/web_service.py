@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import uuid
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import sqlite3
 import os
 import time
@@ -93,9 +93,32 @@ def status():
     status = get_request_status(request_id)
     res = {"status": status, "request_id": request_id}
     if status == "finished":
-        res["download_link"] = "[still_not_implemented]"
+        download_url = request.host_url + "download?request_id=" + request_id
+        res["download_link"] = download_url
     
     return jsonify(res)
+
+
+@app.route('/download')
+def download():
+    try:
+        request_id = request.args["request_id"]
+    except Exception as e:
+        return jsonify({"status": "denied", "reason": "No request_id was specified."})
+
+    status = get_request_status(request_id)
+    if status != "finished":
+        status_url = request.host_url + "status?request_id=" + request_id
+        return redirect(status_url)
+
+    with open("results/%s.csv" % request_id) as f:
+        csv = f.read()
+
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=%s.csv" % request_id})
 
 
 if __name__ == '__main__':
