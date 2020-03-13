@@ -1,5 +1,5 @@
 # DOWNLOAD AND SET ALL THE GIT REPOSITORIES WITH THE SOURCE CODE OF ENGINES
-#git submodule update --init --recursive
+git submodule update --init --recursive
 git submodule update --recursive
 # Set up CDBoost repository
 cd simulators/cdboost
@@ -12,7 +12,7 @@ cd ../adevs
 git checkout ae4ed330151416f20366d04074e3b1e38e08beec
 # Set up xDEVS Java repository
 cd ../xdevs-java
-git checkout 9315e71b46e576b98536150ab52bc900f91e53a8
+git checkout a180827f9bdfc3f44d9f1cc207294d8552e2882d
 # Set up xDEVS Python repository
 cd ../xdevs-python
 git checkout e578d581452394556bb0a85f03f5427fd5e72857

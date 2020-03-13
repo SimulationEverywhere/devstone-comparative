@@ -9,12 +9,12 @@
 [submodule "cadmium"]
 	path = simulators/cadmium
 	url = https://github.com/SimulationEverywhere/cadmium.git
-[submodule "CDBoost"]
+[submodule "cdboost"]
 	path = simulators/cdboost
 	url = https://github.com/SimulationEverywhere/cdboost.git
-[submodule "aDEVS"]
+[submodule "adevs"]
 	path = simulators/adevs
 	url = https://github.com/smiz/adevs.git
-[submodule "PythonPDEVS"]
+[submodule "pythonpdevs"]
 	path = simulators/pythonpdevs
 	url = http://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
