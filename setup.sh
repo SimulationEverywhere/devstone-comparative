@@ -22,3 +22,22 @@ git checkout 190a70532a96a76445b007c4e0f9cb5a4ce03e55
 cd ..
 
 # COMPILE THE DEVSTONE PROJECT FOR ALL THE DIFFERENT ENGINES
+# Set up aDEVS project
+cd adevs
+mkdir build
+cd build
+cmake ..
+make
+# Set up Cadmium project
+cd ../cadmium
+mkdir build
+cd build
+cmake ..
+make
+# Set up CDBoost project
+cd ../cdboost
+mkdir build
+cd build
+cmake ..
+make
+

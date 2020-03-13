@@ -1,1 +1,0 @@
-/usr/bin/c++   -pedantic --std=c++17 -fPIC -g   CMakeFiles/cadmium-ref-LI.dir/src/cadmium-ref-LI.cpp.o  -o cadmium-ref-LI 

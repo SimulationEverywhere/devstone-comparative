@@ -1,1 +1,0 @@
-/usr/bin/c++   -pedantic --std=c++17 -fPIC -g   CMakeFiles/cadmium_dynamic_LI_test.dir/test/main-test.cpp.o CMakeFiles/cadmium_dynamic_LI_test.dir/test/cadmium_dynamic_LI_test.cpp.o  -o cadmium_dynamic_LI_test /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.a 

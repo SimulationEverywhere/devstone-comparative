@@ -1,5 +1,0 @@
-cadmium_dynamic_LI_test 0 0
-Cadmium_generator_LI_3x3 0 0
----
-cadmium_dynamic_LI_test
-Cadmium_generator_LI_3x3

@@ -1,1 +1,0 @@
-/usr/bin/c++   -pedantic --std=c++17 -fPIC -g   CMakeFiles/cadmium-dynamic-devstone.dir/src/cadmium-dynamic-devstone.cpp.o  -o cadmium-dynamic-devstone /usr/lib/x86_64-linux-gnu/libboost_program_options.a 
