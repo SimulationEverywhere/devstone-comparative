@@ -238,6 +238,7 @@ int main(int argc, char* argv[]){
             cout << "File for events: " << vm["event-list"].as<string>() << " is not accesible." << endl;
             cout << endl;
             cout << "for mode information run: " << argv[0] << " --help" << endl;
+            return 1;
         }
     }
 
@@ -249,13 +250,12 @@ int main(int argc, char* argv[]){
     string event_list = vm["event-list"].as<string>();
     //finished processing input
 
-    auto processed_parameters = hclock::now();
-
     //create models for LI kind
     int models_quantity = (width - 1) * (depth - 1) + 1;
     int counted_atomic_models=0;
     int counted_coupled_models=0;
 
+    auto processed_parameters = hclock::now();
 
     shared_ptr<boost::simulation::pdevs::coupled<Time, msg_type_int>> root_int;
     shared_ptr<boost::simulation::pdevs::coupled<Time, msg_type_pair>> root_pair;
@@ -300,12 +300,7 @@ int main(int argc, char* argv[]){
 
 
     cout << endl;
-    cout << "theory atomic models created: " << models_quantity << std::endl;
-    cout << "real atomic models created: " << counted_atomic_models << " coupled models created: "<<  counted_coupled_models << std::endl;
-    cout << "real total models created: " << counted_atomic_models + counted_coupled_models << std::endl;
-    cout << "time processing arguments: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( processed_parameters - start).count() << endl;
-    cout << "time constructing the models: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( model_built - processed_parameters).count() << endl;
-    cout << "time initializing the models: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( model_init - model_built).count() << endl;
-    cout << "time running simulation: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( finished_simulation - model_init).count() << endl;
-    cout << "total time: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( finished_simulation - start).count() << endl;
+    cout << "Model creation time: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( model_built - processed_parameters).count() << endl;
+    cout << "Engine setup time: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( model_init - model_built).count() << endl;
+    cout << "Simulation time: " << chrono::duration_cast<chrono::duration<double, ratio<1>>>( finished_simulation - model_init).count() << endl;
 }

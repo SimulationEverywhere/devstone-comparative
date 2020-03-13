@@ -7,17 +7,22 @@ import time
 
 sys.setrecursionlimit(10000)
 
-XDEVS_PYTHON_CMD = ""
+threads = os.cpu_count()
+
+XDEVS_PYTHON_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
+XDEVS_PYTHON_F_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f"
+XDEVS_PYTHON_C_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -c"
+XDEVS_PYTHON_FC_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f -c"
 XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
 XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
 XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
 XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
-PYPDEVS_CMD = ""
+PYPDEVS_CMD = "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 PYPDEVS_MIN_CMD = ""
-CADMIUM_CMD = ""
-CADMIUM_CONC_CMD = ""
-CDBOOST_CMD = ""
-ADEVS_CMD = ""
+CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
+CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt --threads=" + threads
+CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
+ADEVS_CMD = "devstone/adevs/build/DEVStone"  # TODO
 
 DEFAULT_PARAMS = ((300, 10, 0, 0), (10, 300, 0, 0), (300, 300, 0, 0))
 DEFAULT_MODEL_TYPES = ("LI", "HI", "HO", "HOmod")
@@ -28,6 +33,9 @@ RE_SIM_TIMES = r"Model creation time: ?([0-9.e-]+) ?.*Engine set ?up time: ?([0-
 
 
 engines = {"xdevs-python": XDEVS_PYTHON_CMD,
+           "xdevs-python-f": XDEVS_PYTHON_F_CMD,
+           "xdevs-python-c": XDEVS_PYTHON_C_CMD,
+           "xdevs-python-fc": XDEVS_PYTHON_FC_CMD,
            "xdevs-java": XDEVS_JAVA_CMD,
            "xdevs-java-chained": XDEVS_JAVA_CHAINED_CMD,
            "xdevs-java-parallel": XDEVS_JAVA_PARALLEL_CMD,

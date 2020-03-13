@@ -17,7 +17,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 ## CDBoost
 add_executable(cdboost-devstone
-        src/cdboost-devstone.cpp
+        src/cdboost-devstone.cpp events_devstone.txt
         )
 target_include_directories(cdboost-devstone
         PUBLIC ${PROJECT_SOURCE_DIR}/simulators/cdboost/include
