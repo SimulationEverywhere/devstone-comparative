@@ -4,6 +4,7 @@ import re
 import subprocess
 import sys
 import time
+import os
 
 sys.setrecursionlimit(10000)
 
@@ -13,14 +14,14 @@ XDEVS_PYTHON_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/m
 XDEVS_PYTHON_F_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f"
 XDEVS_PYTHON_C_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -c"
 XDEVS_PYTHON_FC_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f -c"
-XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
-XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
-XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
-XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/production/xdevs xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
+XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
+XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
+XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
+XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
 PYPDEVS_CMD = "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 PYPDEVS_MIN_CMD = ""
 CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
-CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt --threads=" + threads
+CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt --threads=" + str(threads)
 CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
 ADEVS_CMD = "devstone/adevs/build/DEVStone"  # TODO
 

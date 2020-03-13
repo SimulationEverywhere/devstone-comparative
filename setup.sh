@@ -1,6 +1,6 @@
 # DOWNLOAD AND SET ALL THE GIT REPOSITORIES WITH THE SOURCE CODE OF ENGINES
-git submodule --init --recursive
-cd simulators
+#git submodule update --init --recursive
+git submodule update --recursive
 # Set up CDBoost repository
 cd simulators/cdboost
 git checkout 90e7074edb3ab6a655104bbc82adc57fcfafa373
@@ -15,13 +15,14 @@ cd ../xdevs-java
 git checkout 9315e71b46e576b98536150ab52bc900f91e53a8
 # Set up xDEVS Python repository
 cd ../xdevs-python
-git checkout 224482d46a222d5d7c71ad5b2f6b4ba7264a809d
+git checkout e578d581452394556bb0a85f03f5427fd5e72857
 # Set up PythonPDEVS repository
 cd ../pythonpdevs
 git checkout 190a70532a96a76445b007c4e0f9cb5a4ce03e55
-cd ..
+cd ../..
 
 # COMPILE THE DEVSTONE PROJECT FOR ALL THE DIFFERENT ENGINES
+cd devstone
 # Set up aDEVS project
 cd adevs
 mkdir build
@@ -29,15 +30,24 @@ cd build
 cmake ..
 make
 # Set up Cadmium project
-cd ../cadmium
+cd ../../cadmium
 mkdir build
 cd build
 cmake ..
 make
 # Set up CDBoost project
-cd ../cdboost
+cd ../../cdboost
 mkdir build
 cd build
 cmake ..
 make
-
+# Compile xDEVS java
+cd ../../../simulators/xdevs-java
+find -name "*.java" | grep src/* > sources.txt
+javac @sources.txt -d out
+# build xDEVS Python
+cd ../xdevs-python
+python3 setup.py install
+# build PythonPDEVS
+cd ../pythonpdevs/src
+python3 setup.py install --user
