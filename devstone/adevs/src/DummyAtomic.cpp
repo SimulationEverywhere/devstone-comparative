@@ -3,6 +3,7 @@
 //
 
 #include "DummyAtomic.hpp"
+#include "../../dhry/dhry_1.c"
 
 const int DummyAtomic::in = 0;
 const int DummyAtomic::out = 1;
@@ -17,6 +18,7 @@ DummyAtomic::DummyAtomic(int intDelayIn, int extDelayIn, double procTimeIn): ade
 
 /// External transition function
 void DummyAtomic::delta_ext(double e, const adevs::Bag<IO_Type>& x) {
+    DhryStone().dhrystoneRun(extDelay);
     t += e;
     if (sigma != DBL_MAX) {
         sigma -= e;
@@ -27,6 +29,7 @@ void DummyAtomic::delta_ext(double e, const adevs::Bag<IO_Type>& x) {
 
 /// Internal transition function
 void DummyAtomic::delta_int() {
+    DhryStone().dhrystoneRun(intDelay);
     t += sigma;
     sigma = DBL_MAX;
 }

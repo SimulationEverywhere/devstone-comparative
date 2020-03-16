@@ -27,7 +27,7 @@
 #define P_DEVSTONE_ATOMIC_PAIR_H
 
 #include <boost/simulation/pdevs/atomic.hpp>
-#include "../dhry/dhry_1.c"
+#include "../../dhry/dhry_1.c"
 
 namespace cdpp {
 /**
