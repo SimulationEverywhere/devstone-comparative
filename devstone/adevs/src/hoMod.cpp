@@ -52,10 +52,12 @@ adevs::Digraph<int*>()
             for (auto a: atomics.find(0)->second) {
                 couple(a, a->out, c, c->in2);
             }
-            for (int i = 0; i < atomics.find(1)->second.size(); i++) {  // TODO cambiar esto para el HOmod nuevo
-                DummyAtomic *aDown = *std::next(atomics.find(1)->second.begin(), i);
+            for (int i = 0; i < atomics.find(0)->second.size(); i++) {
                 DummyAtomic *aTop = *std::next(atomics.find(0)->second.begin(), i);
-                couple(aDown, aDown->out, aTop, aTop->in);
+                for (int j = 0; j < atomics.find(1)->second.size(); j++) {
+                    DummyAtomic *aDown = *std::next(atomics.find(1)->second.begin(), j);
+                    couple(aDown, aDown->out, aTop, aTop->in);
+                }
             }
             for (int i = 2; i < width; i++) {
                 for (int j = 0; j < atomics.find(i)->second.size(); j++) {
