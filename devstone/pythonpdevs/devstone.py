@@ -183,13 +183,15 @@ class HO(DEVStoneWrapper):
 
 class HOmod(CoupledDEVS):
 
-    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float):
+    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float, prep_time=0, stats=False):
         super().__init__(name)
 
         self.depth = depth
         self.width = width
         self.int_delay = int_delay
         self.ext_delay = ext_delay
+        self.prep_time = prep_time
+        self.stats = stats
 
         self.i_in = self.addInPort("i_in")
         self.i_in2 = self.addInPort("i_in2")
@@ -205,13 +207,16 @@ class HOmod(CoupledDEVS):
             raise ValueError("Invalid ext_delay")
 
         if depth == 1:
-            atomic = DelayedAtomic("Atomic_0_0", int_delay, ext_delay, add_out_port=True)
+            if self.stats:
+                atomic = DelayedAtomicStats("Atomic_0_0", int_delay, ext_delay, add_out_port=True, prep_time=prep_time)
+            else:
+                atomic = DelayedAtomic("Atomic_0_0", int_delay, ext_delay, add_out_port=True, prep_time=prep_time)
             self.addSubModel(atomic)
 
             self.connectPorts(self.i_in, atomic.i_in)
             self.connectPorts(atomic.o_out, self.o_out)
         else:
-            coupled = HOmod("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay)
+            coupled = HOmod("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay, prep_time=prep_time, stats=stats)
             self.addSubModel(coupled)
             self.connectPorts(self.i_in, coupled.i_in)
             self.connectPorts(coupled.o_out, self.o_out)
@@ -223,8 +228,12 @@ class HOmod(CoupledDEVS):
                 for i in range(width):
                     min_row_idx = 0 if i < 2 else i - 1
                     for j in range(min_row_idx, width - 1):
-                        atomic = DelayedAtomic("Atomic_%d_%d_%d" % (depth - 1, i, j), int_delay, ext_delay,
-                                               add_out_port=True)
+                        if self.stats:
+                            atomic = DelayedAtomicStats("Atomic_%d_%d_%d" % (depth - 1, i, j), int_delay, ext_delay,
+                                                   add_out_port=True, prep_time=prep_time)
+                        else:
+                            atomic = DelayedAtomic("Atomic_%d_%d_%d" % (depth - 1, i, j), int_delay, ext_delay,
+                                                   add_out_port=True, prep_time=prep_time)
                         self.addSubModel(atomic)
                         atomics[i].append(atomic)
 
@@ -239,7 +248,8 @@ class HOmod(CoupledDEVS):
                 for atomic in atomics[0]:  # First row to coupled component
                     self.connectPorts(atomic.o_out, coupled.i_in2)
                 for i in range(len(atomics[1])):  # Second to first rows
-                    self.connectPorts(atomics[1][i].o_out, atomics[0][i].i_in)
+                    for j in range(len(atomics[0])):
+                        self.connectPorts(atomics[1][i].o_out, atomics[0][j].i_in)
                 for i in range(2, width):  # Rest of rows
                     for j in range(len(atomics[i])):
                         self.connectPorts(atomics[i][j].o_out, atomics[i - 1][j + 1].i_in)
