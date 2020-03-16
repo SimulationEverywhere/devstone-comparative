@@ -30,7 +30,7 @@
 #include<cadmium/modeling/message_bag.hpp>
 #include<limits>
 
-#include "../dhry/dhry_1.c"
+#include "../../dhry/dhry_1.c"
 
 
 /**
