@@ -124,15 +124,20 @@ with open(args.out_file, "w") as csv_file:
 
                     print(engine_cmd_f)
 
-                    # Open subprocess
-                    result = subprocess.run(engine_cmd_f.split(), stdout=subprocess.PIPE)
+                    # Execute simulation
+                    try:
+                        result = subprocess.run(engine_cmd_f.split(), stdout=subprocess.PIPE)
+                    except Exception as e:
+                        print("%s: Error executing simulation." % engine)
+                        break
 
                     # Read data from output
                     found = re.search(RE_SIM_TIMES, str(result.stdout))
 
                     if not found:
+                        print("%s: Simulation execution times could not be extracted." % engine)
                         print(result.stdout)
-                        raise RuntimeError("Simulation execution times could not be extracted.")
+                        break
 
                     model_time, engine_time, sim_time = tuple(map(float, found.groups()))
                     total_time = sum((model_time, engine_time, sim_time))
