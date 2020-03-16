@@ -17,7 +17,6 @@ class DummyAtomic: public adevs::Atomic<IO_Type> {
         int extDelay;
         double sigma;
         double procTime;
-        std::list<int*> values;
         double t;
     public:
         /// Model input port

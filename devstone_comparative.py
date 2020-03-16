@@ -23,7 +23,7 @@ PYPDEVS_MIN_CMD = ""
 CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
 CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
-ADEVS_CMD = "devstone/adevs/build/DEVStone"  # TODO
+ADEVS_CMD = "devstone/adevs/build/DEVStone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 
 DEFAULT_PARAMS = ((300, 10, 0, 0), (10, 300, 0, 0), (300, 300, 0, 0))
 DEFAULT_MODEL_TYPES = ("LI", "HI", "HO", "HOmod")
