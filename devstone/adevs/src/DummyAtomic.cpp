@@ -20,36 +20,26 @@ void DummyAtomic::delta_ext(double e, const adevs::Bag<IO_Type>& x) {
     t += e;
     if (sigma != DBL_MAX) {
         sigma -= e;
+    } else {
+        sigma = procTime;
     }
-    // Add the new values to the back of the list.
-    adevs::Bag<IO_Type>::const_iterator i = x.begin();
-    values.push_back(new int(*((*i).value)));
-    sigma = procTime;
 }
 
 /// Internal transition function
 void DummyAtomic::delta_int() {
     t += sigma;
-    // Done with the job, so set time of next event to infinity
     sigma = DBL_MAX;
-    values.clear();
 }
 
 /// Confluent transition function.
 void DummyAtomic::delta_conf(const adevs::Bag<IO_Type>& x) {
-    // Discard the old job
     delta_int();
-    // Process the incoming job
     delta_ext(0.0, x);
 }
 
 /// Output function.
 void DummyAtomic::output_func(adevs::Bag<IO_Type >& y) {
-    // Get the departing customer
-    std::list<int*>::iterator i;
-    for (i = values.begin(); i != values.end(); i++) {
-        y.insert(IO_Type(out, *i));
-    }
+    y.insert(IO_Type(out, 0));
 }
 
 /// Time advance function.

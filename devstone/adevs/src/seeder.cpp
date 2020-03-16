@@ -8,7 +8,7 @@ const int Seeder::out = 0;
 
 Seeder::Seeder(int nMessagesIn): adevs::Atomic<IO_Type>() {
     nMessages = nMessagesIn;
-    sigma = DBL_MAX;
+    sigma = 0;
     t = 0.0;
 }
 

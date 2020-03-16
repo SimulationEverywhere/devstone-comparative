@@ -10,6 +10,7 @@
 #include "DEVSWrapper.hpp"
 
 class HO: public DEVSWrapper {
+public:
     HO(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
 };
 

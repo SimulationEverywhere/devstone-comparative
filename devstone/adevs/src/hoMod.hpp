@@ -9,7 +9,7 @@
 #include "DummyAtomic.hpp"
 
 
-class HOMod: public adevs::Digraph<int*> {
+class HOmod: public adevs::Digraph<int*> {
 protected:
     int depth, width;
     int intDelay, extDelay;
@@ -20,7 +20,7 @@ public:
     /// Model output port
     static const int out;
     // Constructor
-    HOMod(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
+    HOmod(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn);
 };
 
 

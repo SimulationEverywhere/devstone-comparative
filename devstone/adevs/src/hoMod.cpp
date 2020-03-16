@@ -6,11 +6,11 @@
 #include <map>
 #include <list>
 
-const int HOMod::in1 = 0;
-const int HOMod::in2 = 1;
-const int HOMod::out = 2;
+const int HOmod::in1 = 0;
+const int HOmod::in2 = 1;
+const int HOmod::out = 2;
 
-HOMod::HOMod(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn):
+HOmod::HOmod(int depthIn, int widthIn, int intDelayIn, int extDelayIn, double procTimeIn):
 adevs::Digraph<int*>()
 {
     depth = depthIn;
@@ -25,7 +25,7 @@ adevs::Digraph<int*>()
         couple(this, this->in1, a, a->in);
         couple(a, a->out, this, this->out);
     } else {
-        HOMod *c = new HOMod(depth - 1, width, intDelay, extDelay, procTime);
+        HOmod *c = new HOmod(depth - 1, width, intDelay, extDelay, procTime);
         couple(this, this->in1, c, c->in1);
         couple(c, c->out, this, this->out);
         if (width > 1) {
@@ -52,7 +52,7 @@ adevs::Digraph<int*>()
             for (auto a: atomics.find(0)->second) {
                 couple(a, a->out, c, c->in2);
             }
-            for (int i = 0; i < atomics.find(1)->second.size(); i++) {
+            for (int i = 0; i < atomics.find(1)->second.size(); i++) {  // TODO cambiar esto para el HOmod nuevo
                 DummyAtomic *aDown = *std::next(atomics.find(1)->second.begin(), i);
                 DummyAtomic *aTop = *std::next(atomics.find(0)->second.begin(), i);
                 couple(aDown, aDown->out, aTop, aTop->in);
