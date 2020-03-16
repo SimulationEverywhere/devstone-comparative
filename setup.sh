@@ -44,7 +44,7 @@ make
 # Compile xDEVS java
 cd ../../../simulators/xdevs-java
 find -name "*.java" | grep src/* > sources.txt
-javac @sources.txt -d out
+javac @sources.txt -encoding ISO-8859-1 -d out
 # build xDEVS Python
 cd ../xdevs-python
 python3 setup.py install
