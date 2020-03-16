@@ -44,16 +44,35 @@ class DelayedAtomic(AtomicDEVS):
         return "active"
 
 
+class DelayedAtomicStats(DelayedAtomic):
+    def __init__(self, name: str, int_delay: float, ext_delay: float, add_out_port: bool = False, prep_time=0):
+        super().__init__(name, int_delay, ext_delay, add_out_port, prep_time)
+
+        self.int_count = 0
+        self.ext_count = 0
+
+    def intTransition(self):
+        self.int_count += 1
+        return super().intTransition()
+
+    def extTransition(self, inputs):
+        self.ext_count += 1
+        return super().extTransition(inputs)
+
+
 class DEVStoneWrapper(CoupledDEVS, ABC):
 
     def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float,
-                 add_atomic_out_ports: bool = False):
+                 add_atomic_out_ports: bool = False, prep_time=0, stats=False):
         super().__init__(name)
 
         self.depth = depth
         self.width = width
         self.int_delay = int_delay
         self.ext_delay = ext_delay
+        self.prep_time = prep_time
+        self.stats = stats
+        self.add_atomic_out_ports = add_atomic_out_ports
 
         self.i_in = self.addInPort("i_in")
         self.o_out = self.addOutPort("o_out")
@@ -68,7 +87,11 @@ class DEVStoneWrapper(CoupledDEVS, ABC):
             raise ValueError("Invalid ext_delay")
 
         if depth == 1:
-            atomic = DelayedAtomic("Atomic_0_0", int_delay, ext_delay, add_out_port=True)
+            if self.stats:
+                atomic = DelayedAtomicStats("Atomic_0_0", int_delay, ext_delay, add_out_port=True, prep_time=prep_time)
+            else:
+                atomic = DelayedAtomic("Atomic_0_0", int_delay, ext_delay, add_out_port=True, prep_time=prep_time)
+
             self.addSubModel(atomic)
 
             self.connectPorts(self.i_in, atomic.i_in)
@@ -80,8 +103,12 @@ class DEVStoneWrapper(CoupledDEVS, ABC):
             self.connectPorts(coupled.o_out, self.o_out)
 
             for idx in range(width - 1):
-                atomic = DelayedAtomic("Atomic_%d_%d" % (depth - 1, idx), int_delay, ext_delay,
-                                       add_out_port=add_atomic_out_ports)
+                if self.stats:
+                    atomic = DelayedAtomicStats("Atomic_%d_%d" % (depth - 1, idx), int_delay, ext_delay,
+                                                add_out_port=add_atomic_out_ports, prep_time=prep_time)
+                else:
+                    atomic = DelayedAtomic("Atomic_%d_%d" % (depth - 1, idx), int_delay, ext_delay,
+                                           add_out_port=add_atomic_out_ports, prep_time=prep_time)
                 self.addSubModel(atomic)
 
     @abstractmethod
@@ -92,21 +119,24 @@ class DEVStoneWrapper(CoupledDEVS, ABC):
 
 class LI(DEVStoneWrapper):
 
-    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float):
-        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=False)
+    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float, prep_time=0, stats=False):
+        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=False, prep_time=prep_time,
+                         stats=stats)
 
         for idx in range(1, len(self.component_set)):
             assert isinstance(self.component_set[idx], AtomicDEVS)
             self.connectPorts(self.i_in, self.component_set[idx].i_in)
 
     def gen_coupled(self):
-        return LI("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay)
+        return LI("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay,
+                  prep_time=self.prep_time, stats=self.stats)
 
 
 class HI(DEVStoneWrapper):
 
-    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float):
-        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=True)
+    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float, prep_time=0, stats=False):
+        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=True, prep_time=prep_time,
+                         stats=stats)
 
         if len(self.component_set) > 1:
             assert isinstance(self.component_set[-1], AtomicDEVS)
@@ -118,13 +148,15 @@ class HI(DEVStoneWrapper):
             self.connectPorts(self.i_in, self.component_set[idx].i_in)
 
     def gen_coupled(self):
-        return HI("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay)
+        return HI("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay,
+                  prep_time=self.prep_time, stats=self.stats)
 
 
 class HO(DEVStoneWrapper):
 
-    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float):
-        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=False)
+    def __init__(self, name: str, depth: int, width: int, int_delay: float, ext_delay: float, prep_time=0, stats=False):
+        super().__init__(name, depth, width, int_delay, ext_delay, add_atomic_out_ports=True, prep_time=prep_time,
+                         stats=stats)
 
         self.i_in2 = self.addInPort("i_in2")
         self.o_out2 = self.addOutPort("o_out2")
@@ -145,7 +177,8 @@ class HO(DEVStoneWrapper):
             self.connectPorts(self.component_set[idx].o_out, self.o_out2)
 
     def gen_coupled(self):
-        return HO("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay)
+        return HO("Coupled_%d" % (self.depth - 1), self.depth - 1, self.width, self.int_delay, self.ext_delay,
+                  prep_time=self.prep_time, stats=self.stats)
 
 
 class HOmod(CoupledDEVS):
@@ -190,7 +223,8 @@ class HOmod(CoupledDEVS):
                 for i in range(width):
                     min_row_idx = 0 if i < 2 else i - 1
                     for j in range(min_row_idx, width - 1):
-                        atomic = DelayedAtomic("Atomic_%d_%d_%d" % (depth - 1, i, j), int_delay, ext_delay, add_out_port=True)
+                        atomic = DelayedAtomic("Atomic_%d_%d_%d" % (depth - 1, i, j), int_delay, ext_delay,
+                                               add_out_port=True)
                         self.addSubModel(atomic)
                         atomics[i].append(atomic)
 
@@ -208,11 +242,12 @@ class HOmod(CoupledDEVS):
                     self.connectPorts(atomics[1][i].o_out, atomics[0][i].i_in)
                 for i in range(2, width):  # Rest of rows
                     for j in range(len(atomics[i])):
-                        self.connectPorts(atomics[i][j].o_out, atomics[i-1][j+1].i_in)
+                        self.connectPorts(atomics[i][j].o_out, atomics[i - 1][j + 1].i_in)
 
 
 if __name__ == '__main__':
     import sys
+
     sys.setrecursionlimit(10000)
     root = HOmod("Root", 4, 3, 0, 0)
     sim = Simulator(root)
