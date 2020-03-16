@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
   build-essential \
+  cmake \
   git \
   openjdk-11-jdk-headless \
   libboost-all-dev \
@@ -19,9 +20,9 @@ COPY events_devstone.txt clean.sh setup.sh devstone_comparative.py .gitmodules /
 RUN pip3 install setuptools flask
 
 WORKDIR /root/devstone_comparative
-RUN ./setup.py
+RUN ./clean.sh
+RUN ./setup.sh
 
-WORKDIR /root/devstone_comparative/web_service
-RUN python3 manage.py -i -a test
-RUN python3 web_service.py
+RUN python3 web_service/manage.py -i -a test
+ENTRYPOINT python3 web_service/web_service.py
 
