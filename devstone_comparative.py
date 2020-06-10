@@ -107,41 +107,59 @@ args = parse_args()
 if not engines:
     raise RuntimeError("No engines were selected.")
 
+
+def execute_cmd(cmd, csv_writer):
+    # Execute simulation
+    try:
+        result = subprocess.run(engine_cmd_f.split(), stdout=subprocess.PIPE)
+    except Exception as e:
+        print("%s: Error executing simulation." % engine)
+        return
+
+    # Read data from output
+    found = re.search(RE_SIM_TIMES, str(result.stdout))
+
+    if not found:
+        print("%s: Simulation execution times could not be extracted." % engine)
+        print(result.stdout)
+        return
+
+    model_time, engine_time, sim_time = tuple(map(float, found.groups()))
+    total_time = sum((model_time, engine_time, sim_time))
+
+    # Write results into output file
+    row = (
+    engine, i_exec, model_type, depth, width, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
+    csv_writer.writerow(row)
+
+
 with open(args.out_file, "w") as csv_file:
     csv_writer = csv.writer(csv_file, delimiter=';')
-    csv_writer.writerow(("engine", "iter", "model", "depth", "width", "model_time", "runner_time", "sim_time", "total_time"))
+    csv_writer.writerow(("engine", "iter", "model", "depth", "width", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
 
     for engine in args.include_engines:
         engine_cmd = engines[engine]
 
-        for model_type in args.model_types:
-            for depth, width, int_cycles, ext_cycles in args.params:
-                engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles, ext_cycles=ext_cycles)
+        if len(args.params[0]) == 4:
+                for model_type in args.model_types:
+                    for depth, width, int_cycles, ext_cycles in args.params:
+                        engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles, ext_cycles=ext_cycles)
+                        for i_exec in range(args.num_rep):
+
+                            if not engine_cmd_f:
+                                continue
+
+                            print(engine_cmd_f)
+                            execute_cmd(engine_cmd_f, csv_writer)
+
+        elif len(args.params[0]) == 5:
+            for model_type, depth, width, int_cycles, ext_cycles in args.params:
+                engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles,
+                                                 ext_cycles=ext_cycles)
                 for i_exec in range(args.num_rep):
 
                     if not engine_cmd_f:
                         continue
 
                     print(engine_cmd_f)
-
-                    # Execute simulation
-                    try:
-                        result = subprocess.run(engine_cmd_f.split(), stdout=subprocess.PIPE)
-                    except Exception as e:
-                        print("%s: Error executing simulation." % engine)
-                        break
-
-                    # Read data from output
-                    found = re.search(RE_SIM_TIMES, str(result.stdout))
-
-                    if not found:
-                        print("%s: Simulation execution times could not be extracted." % engine)
-                        print(result.stdout)
-                        break
-
-                    model_time, engine_time, sim_time = tuple(map(float, found.groups()))
-                    total_time = sum((model_time, engine_time, sim_time))
-
-                    # Write results into output file
-                    row = (engine, i_exec, model_type, depth, width, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
-                    csv_writer.writerow(row)
+                    execute_cmd(engine_cmd_f, csv_writer)
