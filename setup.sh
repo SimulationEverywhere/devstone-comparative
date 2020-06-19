@@ -16,6 +16,9 @@ git checkout a180827f9bdfc3f44d9f1cc207294d8552e2882d
 # Set up xDEVS Python repository
 cd ../xdevs-python
 git checkout e578d581452394556bb0a85f03f5427fd5e72857
+# Set up xDEVS C++ repository
+cd ../xdevs-c++
+git checkout bdb8c72dc25d7793665e7146b9d17f70b5a12db0
 # Set up PythonPDEVS repository
 cd ../pythonpdevs
 git checkout 190a70532a96a76445b007c4e0f9cb5a4ce03e55
@@ -51,3 +54,6 @@ python3 setup.py install
 # build PythonPDEVS
 cd ../pythonpdevs/src
 python3 setup.py install --user
+# Set up xDEVS C++ project
+cd ../../xdevs-c++/src/xdevs/examples/DevStone/
+make

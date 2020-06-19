@@ -10,6 +10,7 @@ sys.setrecursionlimit(10000)
 
 threads = os.cpu_count()
 
+XDEVS_CPP_CMD = "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1"
 XDEVS_PYTHON_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 XDEVS_PYTHON_F_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f"
 XDEVS_PYTHON_C_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -c"
@@ -20,6 +21,8 @@ XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core
 XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
 PYPDEVS_CMD = "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 PYPDEVS_MIN_CMD = "python3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
+PYPDEVS_PYPY_CMD = "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
+PYPDEVS_PYPY_MIN_CMD = "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
 CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
@@ -33,7 +36,8 @@ DEFAULT_NUM_REPS = 10
 RE_SIM_TIMES = r"Model creation time: ?([0-9.e-]+) ?.*Engine set ?up time: ?([0-9.e-]+) ?.*Simulation time: ?([0-9.e-]+)"
 
 
-engines = {"xdevs-python": XDEVS_PYTHON_CMD,
+engines = {"xdevs-c++": XDEVS_CPP_CMD,
+           "xdevs-python": XDEVS_PYTHON_CMD,
            "xdevs-python-f": XDEVS_PYTHON_F_CMD,
            "xdevs-python-c": XDEVS_PYTHON_C_CMD,
            "xdevs-python-fc": XDEVS_PYTHON_FC_CMD,
@@ -43,6 +47,8 @@ engines = {"xdevs-python": XDEVS_PYTHON_CMD,
            "xdevs-java-parallel-chained": XDEVS_JAVA_PARALLEL_CHAINED_CMD,
            "pypdevs": PYPDEVS_CMD,
            "pypdevs-min": PYPDEVS_MIN_CMD,
+           "pypdevs-pypy": PYPDEVS_CMD,
+           "pypdevs-pypy-min": PYPDEVS_MIN_CMD,
            "cadmium": CADMIUM_CMD,
            "cadmium-conc": CADMIUM_CONC_CMD,
            "cdboost": CDBOOST_CMD,
