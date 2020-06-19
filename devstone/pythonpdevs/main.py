@@ -66,7 +66,7 @@ if __name__ == '__main__':
     model_created_time = time.time()
 
     sim = Simulator(env)
-    sim.setVerbose(None)
+    #sim.setVerbose(None)
     # sim.setTerminationTime(10.0)
     # sim.setStateSaving("custom")
     engine_setup_time = time.time()
