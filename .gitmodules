@@ -18,3 +18,6 @@
 [submodule "pythonpdevs"]
 	path = simulators/pythonpdevs
 	url = http://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
+[submodule "simulators/xdevs-c++"]
+	path = simulators/xdevs-c++
+	url = https://github.com/iscar-ucm/xdevs.git
