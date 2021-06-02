@@ -39,14 +39,14 @@ cd build
 cmake ..
 make
 # Set up CDBoost project
-cd ../../cdboost
-mkdir build
-cd build
-cmake ..
-make
+# cd ../../cdboost
+# mkdir build
+# cd build
+# cmake ..
+# make
 # Compile xDEVS java
 cd ../../../simulators/xdevs-java
-find -name "*.java" | grep src/* > sources.txt
+find . -name "*.java" | grep src/* > sources.txt
 javac @sources.txt -encoding ISO-8859-1 -d out
 # build xDEVS Python
 cd ../xdevs-python

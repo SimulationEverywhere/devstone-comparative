@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(devstone-adevs)
 
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_COMPILER "g++")
-add_compile_options(-g)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../simulators/adevs/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
