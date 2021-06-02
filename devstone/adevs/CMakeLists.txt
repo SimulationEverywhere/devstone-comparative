@@ -14,6 +14,7 @@ find_package(Boost COMPONENTS program_options unit_test_framework REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_executable(DEVStone src/DEVStone.cpp src/DummyAtomic.cpp src/DEVSWrapper.cpp
-        src/li.cpp src/hoMod.cpp src/hi src/ho.cpp src/seeder.cpp)
+#add_executable(DEVStone src/DEVStone.cpp src/DummyAtomic.cpp src/DEVSWrapper.cpp
+#        src/li.cpp src/hoMod.cpp src/hi src/ho.cpp src/seeder.cpp)
+add_executable(DEVStone main.cpp)
 target_link_libraries(DEVStone ${Boost_PROGRAM_OPTIONS_LIBRARY})
