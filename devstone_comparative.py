@@ -25,8 +25,9 @@ PYPDEVS_PYPY_CMD = "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth
 PYPDEVS_PYPY_MIN_CMD = "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
-CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
-ADEVS_CMD = "devstone/adevs/build/DEVStone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
+# CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
+# ADEVS_CMD = "devstone/adevs/build/DEVStone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
+ADEVS_CMD = "devstone/adevs/build/DEVStone -d {depth} -w {width} -m 1 -b {model_type}"
 
 DEFAULT_PARAMS = ((300, 10, 0, 0), (10, 300, 0, 0), (300, 300, 0, 0))
 DEFAULT_MODEL_TYPES = ("LI", "HI", "HO", "HOmod")
@@ -50,9 +51,10 @@ engines = {"xdevs-c++": XDEVS_CPP_CMD,
            "pypdevs-pypy": PYPDEVS_CMD,
            "pypdevs-pypy-min": PYPDEVS_MIN_CMD,
            "cadmium": CADMIUM_CMD,
-           "cadmium-conc": CADMIUM_CONC_CMD,
-           "cdboost": CDBOOST_CMD,
-           "adevs": ADEVS_CMD
+           # "cadmium-conc": CADMIUM_CONC_CMD,
+           # "cdboost": CDBOOST_CMD,
+           "adevs": ADEVS_CMD,
+           # "adevs2": ADEVS2_CMD
            }
 
 

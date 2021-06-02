@@ -1,11 +1,8 @@
 # DOWNLOAD AND SET ALL THE GIT REPOSITORIES WITH THE SOURCE CODE OF ENGINES
 git submodule update --init --recursive
 git submodule update --recursive
-# Set up CDBoost repository
-cd simulators/cdboost
-git checkout 90e7074edb3ab6a655104bbc82adc57fcfafa373
 # Set up Cadmium repository
-cd ../cadmium
+cd simulators/cadmium
 git checkout b6636f791d3fbff41b6b72e1d9e34ce18152065d
 # Set up aDEVS repository
 cd ../adevs
@@ -38,12 +35,6 @@ mkdir build
 cd build
 cmake ..
 make
-# Set up CDBoost project
-# cd ../../cdboost
-# mkdir build
-# cd build
-# cmake ..
-# make
 # Compile xDEVS java
 cd ../../../simulators/xdevs-java
 find . -name "*.java" | grep src/* > sources.txt
