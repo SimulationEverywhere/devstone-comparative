@@ -56,4 +56,5 @@ cd ../pythonpdevs/src
 python3 setup.py install --user
 # Set up xDEVS C++ project
 cd ../../xdevs-c++/src/xdevs/examples/DevStone/
+cp ../../../../../../devstone/xdevs-c++/Makefile Makefile
 make
