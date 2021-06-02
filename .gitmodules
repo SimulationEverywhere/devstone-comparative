@@ -9,9 +9,6 @@
 [submodule "cadmium"]
 	path = simulators/cadmium
 	url = https://github.com/SimulationEverywhere/cadmium.git
-[submodule "cdboost"]
-	path = simulators/cdboost
-	url = https://github.com/SimulationEverywhere/cdboost.git
 [submodule "adevs"]
 	path = simulators/adevs
 	url = https://github.com/smiz/adevs.git
