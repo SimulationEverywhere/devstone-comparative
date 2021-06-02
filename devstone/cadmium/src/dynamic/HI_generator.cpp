@@ -24,6 +24,7 @@
  */
 
 #include <chrono>
+#include <unordered_map>
 #include <boost/format.hpp>
 
 #include "../cadmium-devstone-atomic.hpp"
