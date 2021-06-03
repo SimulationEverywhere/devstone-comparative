@@ -16,15 +16,15 @@ XDEVS_PYTHON_F_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone
 XDEVS_PYTHON_C_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -c"
 XDEVS_PYTHON_FC_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f -c"
 XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
-XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
+# XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
 XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
-XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
+# XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
 PYPDEVS_CMD = "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 PYPDEVS_MIN_CMD = "python3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-PYPDEVS_PYPY_CMD = "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-PYPDEVS_PYPY_MIN_CMD = "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
+# PYPDEVS_PYPY_CMD = "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
+# PYPDEVS_PYPY_MIN_CMD = "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
 CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
-CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
+# CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
 # CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
 # ADEVS_CMD = "devstone/adevs/build/DEVStone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 ADEVS_CMD = "devstone/adevs/build/DEVStone -d {depth} -w {width} -m 1 -b {model_type}"
@@ -43,13 +43,12 @@ engines = {"xdevs-c++": XDEVS_CPP_CMD,
            "xdevs-python-c": XDEVS_PYTHON_C_CMD,
            "xdevs-python-fc": XDEVS_PYTHON_FC_CMD,
            "xdevs-java": XDEVS_JAVA_CMD,
-           "xdevs-java-chained": XDEVS_JAVA_CHAINED_CMD,
+           # "xdevs-java-chained": XDEVS_JAVA_CHAINED_CMD,
            "xdevs-java-parallel": XDEVS_JAVA_PARALLEL_CMD,
-           "xdevs-java-parallel-chained": XDEVS_JAVA_PARALLEL_CHAINED_CMD,
            "pypdevs": PYPDEVS_CMD,
            "pypdevs-min": PYPDEVS_MIN_CMD,
-           "pypdevs-pypy": PYPDEVS_CMD,
-           "pypdevs-pypy-min": PYPDEVS_MIN_CMD,
+           # "pypdevs-pypy": PYPDEVS_CMD,
+           # "pypdevs-pypy-min": PYPDEVS_MIN_CMD,
            "cadmium": CADMIUM_CMD,
            # "cadmium-conc": CADMIUM_CONC_CMD,
            # "cdboost": CDBOOST_CMD,
