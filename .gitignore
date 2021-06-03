@@ -6,4 +6,6 @@ build/
 
 .DS_Store
 
+devstone_*.csv
+
 __pycache__
