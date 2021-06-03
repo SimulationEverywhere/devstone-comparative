@@ -44,6 +44,7 @@ cd ../xdevs-python
 python3 setup.py install
 # build PythonPDEVS
 cd ../pythonpdevs/src
+cp ../../../devstone/pythonpdevs-minimal/minimal.py ./pypdevs/minimal.py
 python3 setup.py install --user
 # Set up xDEVS C++ project
 cd ../../xdevs-c++/src/xdevs/examples/DevStone/
