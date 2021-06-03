@@ -82,4 +82,7 @@ So far, we support the following simulation engines:
 * xDEVS Java (in the script, use the keyword `xdevs-java`)
 * xDEVS Java with parallel execution (in the script, use the keyword `xdevs-java-parallel`)
 
+The results will be available in a new CSV file located at your current working directory.
+
+# Contributing and reporting errors
 If you want to contribute or you find any error, please contact us via this [GitHub repository](https://github.com/SimulationEverywhere/devstone-comparative).
