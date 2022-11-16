@@ -12,12 +12,6 @@
 [submodule "cdboost"]
 	path = simulators/cdboost
 	url = https://github.com/SimulationEverywhere/cdboost.git
-[submodule "adevs"]
-	path = simulators/adevs
-	url = https://github.com/smiz/adevs.git
-[submodule "pythonpdevs"]
-	path = simulators/pythonpdevs
-	url = http://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
 [submodule "simulators/xdevs-c++"]
 	path = simulators/xdevs-c++
 	url = https://github.com/iscar-ucm/xdevs.git
