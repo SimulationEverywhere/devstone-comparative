@@ -4,29 +4,7 @@ import re
 import subprocess
 import sys
 import time
-import os
 
-sys.setrecursionlimit(10000)
-
-threads = os.cpu_count()
-
-XDEVS_CPP_CMD = "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1"
-XDEVS_PYTHON_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-XDEVS_PYTHON_F_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f"
-XDEVS_PYTHON_C_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -c"
-XDEVS_PYTHON_FC_CMD = "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles} -f -c"
-XDEVS_JAVA_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false"
-XDEVS_JAVA_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chained false"
-XDEVS_JAVA_PARALLEL_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false"
-XDEVS_JAVA_PARALLEL_CHAINED_CMD = "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} chainedparallel false"
-PYPDEVS_CMD = "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-PYPDEVS_MIN_CMD = "python3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-PYPDEVS_PYPY_CMD = "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-PYPDEVS_PYPY_MIN_CMD = "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}"
-CADMIUM_CMD = "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
-CADMIUM_CONC_CMD = "devstone/cadmium/build/cadmium-dynamic-conc-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --threads=" + str(threads)
-CDBOOST_CMD = "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt"
-ADEVS_CMD = "devstone/adevs/build/DEVStone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}"
 
 DEFAULT_PARAMS = ((300, 10, 0, 0), (10, 300, 0, 0), (300, 300, 0, 0))
 DEFAULT_MODEL_TYPES = ("LI", "HI", "HO", "HOmod")
@@ -35,33 +13,44 @@ DEFAULT_NUM_REPS = 10
 
 RE_SIM_TIMES = r"Model creation time: ?([0-9.e-]+) ?.*Engine set ?up time: ?([0-9.e-]+) ?.*Simulation time: ?([0-9.e-]+)"
 
-
-engines = {"xdevs-c++": XDEVS_CPP_CMD,
-           "xdevs-python": XDEVS_PYTHON_CMD,
-           "xdevs-python-f": XDEVS_PYTHON_F_CMD,
-           "xdevs-python-c": XDEVS_PYTHON_C_CMD,
-           "xdevs-python-fc": XDEVS_PYTHON_FC_CMD,
-           "xdevs-java": XDEVS_JAVA_CMD,
-           "xdevs-java-chained": XDEVS_JAVA_CHAINED_CMD,
-           "xdevs-java-parallel": XDEVS_JAVA_PARALLEL_CMD,
-           "xdevs-java-parallel-chained": XDEVS_JAVA_PARALLEL_CHAINED_CMD,
-           "pypdevs": PYPDEVS_CMD,
-           "pypdevs-min": PYPDEVS_MIN_CMD,
-           "pypdevs-pypy": PYPDEVS_CMD,
-           "pypdevs-pypy-min": PYPDEVS_MIN_CMD,
-           "cadmium": CADMIUM_CMD,
-           "cadmium-conc": CADMIUM_CONC_CMD,
-           "cdboost": CDBOOST_CMD,
-           "adevs": ADEVS_CMD
-           }
-
+COMMANDS = {
+    "adevs": "devstone/adevs/bin/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+    "cadmium": {
+        "v1": "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}",
+        "v2": {
+            "sequential": ,
+            "parallel": ,
+        },
+    },
+    "cdboost": "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt",
+    "pypdevs": {
+        "standard": {
+            "python": "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+            "pypy": "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+        },
+        "minimal": {
+            "python": "python3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+            "pypy": "pypy3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+        },
+    },
+    "xdevs": {
+        "c++": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",
+        "go": ,
+        "java": {
+            "sequential": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false",
+            "parallel": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false",
+        },
+        "python": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+        "rs": ,
+    },
+}
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script to compare DEVStone implementations with different engines')
 
     parser.add_argument('-m', '--model-types', help='DEVStone model type (LI, HI, HO, HOmod)')
-    parser.add_argument('-d', '--depth', type=int, help='Number of recursive levels of the model.')
     parser.add_argument('-w', '--width', type=int, help='Width of each coupled model.')
+    parser.add_argument('-d', '--depth', type=int, help='Number of recursive levels of the model.')
     parser.add_argument('-i', '--int-cycles', type=int, help='Dhrystone cycles executed in internal transitions')
     parser.add_argument('-e', '--ext-cycles', type=int, help='Dhrystone cycles executed in external transitions')
     parser.add_argument('-n', '--num-rep', type=int, help='Number of repetitions per each engine and configuration')
@@ -107,13 +96,6 @@ def parse_args():
 
     return args
 
-
-args = parse_args()
-
-if not engines:
-    raise RuntimeError("No engines were selected.")
-
-
 def execute_cmd(cmd, csv_writer):
     # Execute simulation
     try:
@@ -139,33 +121,41 @@ def execute_cmd(cmd, csv_writer):
     csv_writer.writerow(row)
 
 
-with open(args.out_file, "w") as csv_file:
-    csv_writer = csv.writer(csv_file, delimiter=';')
-    csv_writer.writerow(("engine", "iter", "model", "depth", "width", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
+if __name__ == "__main__":
+    sys.setrecursionlimit(10000)
 
-    for engine in args.include_engines:
-        engine_cmd = engines[engine]
+    args = parse_args()
 
-        if len(args.params[0]) == 4:
-                for model_type in args.model_types:
-                    for depth, width, int_cycles, ext_cycles in args.params:
-                        engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles, ext_cycles=ext_cycles)
-                        for i_exec in range(args.num_rep):
+    if not engines:
+        raise RuntimeError("No engines were selected.")
 
-                            if not engine_cmd_f:
-                                continue
+    with open(args.out_file, "w") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=';')
+        csv_writer.writerow(("engine", "iter", "model", "depth", "width", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
 
-                            print(engine_cmd_f)
-                            execute_cmd(engine_cmd_f, csv_writer)
+        for engine in args.include_engines:
+            engine_cmd = engines[engine]
 
-        elif len(args.params[0]) == 5:
-            for model_type, depth, width, int_cycles, ext_cycles in args.params:
-                engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles,
-                                                 ext_cycles=ext_cycles)
-                for i_exec in range(args.num_rep):
+            if len(args.params[0]) == 4:
+                    for model_type in args.model_types:
+                        for depth, width, int_cycles, ext_cycles in args.params:
+                            engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles, ext_cycles=ext_cycles)
+                            for i_exec in range(args.num_rep):
 
-                    if not engine_cmd_f:
-                        continue
+                                if not engine_cmd_f:
+                                    continue
 
-                    print(engine_cmd_f)
-                    execute_cmd(engine_cmd_f, csv_writer)
+                                print(engine_cmd_f)
+                                execute_cmd(engine_cmd_f, csv_writer)
+
+            elif len(args.params[0]) == 5:
+                for model_type, depth, width, int_cycles, ext_cycles in args.params:
+                    engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width, int_cycles=int_cycles,
+                                                     ext_cycles=ext_cycles)
+                    for i_exec in range(args.num_rep):
+
+                        if not engine_cmd_f:
+                            continue
+
+                        print(engine_cmd_f)
+                        execute_cmd(engine_cmd_f, csv_writer)
