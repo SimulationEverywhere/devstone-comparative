@@ -28,16 +28,12 @@ cd ../..
 cd devstone
 # Set up aDEVS project
 cd adevs
-mkdir build
-cd build
-cmake ..
-make
+cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
+cmake --build build/ --target devstone
 # Set up Cadmium project
 cd ../../cadmium
-mkdir build
-cd build
-cmake ..
-make
+cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
+cmake --build build/ --target devstone
 # Set up CDBoost project
 cd ../../cdboost
 mkdir build

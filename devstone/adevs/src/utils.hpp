@@ -1,7 +1,3 @@
-//
-// Created by rcardenas on 3/13/20.
-//
-
 #ifndef DEVSTONE_ADEVS_UTILS_HPP
 #define DEVSTONE_ADEVS_UTILS_HPP
 
