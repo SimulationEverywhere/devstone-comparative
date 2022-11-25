@@ -34,14 +34,14 @@ COMMANDS = {
         },
     },
     "xdevs": {
-        "c++": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",
-        "go": ,
+        "cpp": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",
+        # "go": ,  # TODO add this
         "java": {
             "sequential": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false",
             "parallel": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false",
         },
-        "python": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
-        "rs": ,
+        "py": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+        "rs": "cargo run --release --manifest-path simulators/xdevs.rs/Cargo.toml {model_type} {width} {depth} {int_cycles} {ext_cycles}",
     },
 }
 
