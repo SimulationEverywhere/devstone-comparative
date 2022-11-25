@@ -26,7 +26,6 @@
 #include <iostream>
 #include <chrono>
 #include <algorithm>
-#include <fstream>
 
 #include <boost/program_options.hpp>
 
@@ -94,13 +93,13 @@ int main(int argc, char* argv[]){
     auto processed_parameters = hclock::now();
 
     std::shared_ptr<cadmium::dynamic::modeling::coupled<Time>> TOP_coupled;
-    if (kind.compare("LI") == 0){
+    if (kind == "LI"){
         TOP_coupled = create_LI_model(width,depth, ext_cycles, int_cycles, time_advance);
-    } else if (kind.compare("HI") == 0) {
+    } else if (kind == "HI") {
         TOP_coupled = create_HI_model(width, depth, ext_cycles, int_cycles, time_advance);
-    } else if (kind.compare("HO") == 0) {
+    } else if (kind == "HO") {
         TOP_coupled = create_HO_model(width,depth, ext_cycles, int_cycles, time_advance);
-    } else if (kind.compare("HOmod") == 0) {
+    } else if (kind == "HOmod") {
         TOP_coupled = create_HOmod_model(width,depth, ext_cycles, int_cycles, time_advance);
     } else {
         abort();

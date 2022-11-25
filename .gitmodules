@@ -15,3 +15,6 @@
 [submodule "simulators/xdevs-c++"]
 	path = simulators/xdevs-c++
 	url = https://github.com/iscar-ucm/xdevs.git
+[submodule "simulators/cadmium_v2"]
+	path = simulators/cadmium_v2
+	url = https://github.com/SimulationEverywhere/cadmium_v2.git

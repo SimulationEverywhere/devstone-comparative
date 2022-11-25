@@ -24,12 +24,12 @@
  */
 
 #include <chrono>
+#include <unordered_map>
 #include <boost/format.hpp>
 
 #include "../cadmium-devstone-atomic.hpp"
 #include "../cadmium-event-reader.hpp"
 
-//#include <cadmium/modeling/coupled_model.hpp>
 #include <cadmium/modeling/ports.hpp>
 #include <cadmium/modeling/dynamic_model_translator.hpp>
 #include <cadmium/concept/coupled_model_assert.hpp>
@@ -45,12 +45,11 @@ using TIME = float;
 struct coupledLI_in_port : public cadmium::in_port<int>{};
 struct coupledLI_out_port : public cadmium::out_port<int>{};
 
-std::shared_ptr<cadmium::dynamic::modeling::coupled<TIME>> create_LI_model(
-        uint width, uint depth, int ext_cycles, int int_cycles, TIME time_advance) {
+std::shared_ptr<cadmium::dynamic::modeling::coupled<TIME>> create_LI_model(uint width, uint depth, int int_cycles, int ext_cycles, TIME time_advance) {
     // Creates the LI model with the passed parameters
     // Returns a shared_ptr to the TOP model
-    auto make_atomic_devstone = [&ext_cycles, &int_cycles, &time_advance](std::string model_id) -> std::shared_ptr<cadmium::dynamic::modeling::model> {
-        return cadmium::dynamic::translate::make_dynamic_atomic_model<devstone_atomic, TIME>(model_id, ext_cycles, int_cycles, time_advance);
+    auto make_atomic_devstone = [&ext_cycles, &int_cycles](const std::string& model_id) -> std::shared_ptr<cadmium::dynamic::modeling::model> {
+        return cadmium::dynamic::translate::make_dynamic_atomic_model<devstone_atomic, TIME>(model_id, int_cycles, ext_cycles);
     };
     //Level 0 has always a single model
     std::shared_ptr<cadmium::dynamic::modeling::model> devstone_atomic_L0_0 = make_atomic_devstone("devstone_atomic_L0_0");
@@ -145,6 +144,5 @@ std::shared_ptr<cadmium::dynamic::modeling::coupled<TIME>> create_LI_model(
      TOP_eocs,
      TOP_ics
     );
-
     return TOP_coupled;
 }

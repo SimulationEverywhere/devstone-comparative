@@ -18,8 +18,8 @@ COMMANDS = {
     "cadmium": {
         "v1": "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}",
         "v2": {
-            "sequential": ,
-            "parallel": ,
+            "sequential": "simulators/cadmium_v2/bin/main_devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+            "parallel": "simulators/cadmium_v2/bin/parallel_main_devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
         },
     },
     "cdboost": "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt",
