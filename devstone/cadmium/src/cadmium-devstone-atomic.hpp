@@ -37,7 +37,7 @@ struct devstone_atomic {
     using state_type=devstone_state<TIME>;
 
     state_type state = devstone_state<TIME>();
-    int internal_cycles, external_cycles;
+    [[maybe_unused]] int internal_cycles, external_cycles;
     outbag_t outbag;
 
     constexpr devstone_atomic() noexcept: internal_cycles(), external_cycles() {
@@ -64,16 +64,16 @@ public:
         state.n_events += cadmium::get_messages<typename defs::in>(mbs).size();
     }
 
-    void confluence_transition(TIME e, typename cadmium::make_message_bags<input_ports>::type mbs) {
+    [[maybe_unused]] void confluence_transition(TIME e, typename cadmium::make_message_bags<input_ports>::type mbs) {
         internal_transition();
         external_transition(e, mbs);
     }
 
-    [[nodiscard]] outbag_t output() const {
+    [[maybe_unused]][[nodiscard]] outbag_t output() const {
         return outbag;
     }
 
-    TIME time_advance() const {
+    [[maybe_unused]] TIME time_advance() const {
         return state.sigma;
     }
 };
