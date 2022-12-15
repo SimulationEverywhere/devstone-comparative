@@ -10,3 +10,15 @@
 [submodule "simulators/xdevs.c"]
 	path = simulators/xdevs.c
 	url = https://github.com/iscar-ucm/xdevs.c.git
+[submodule "simulators/xdevs.cpp"]
+	path = simulators/xdevs.cpp
+	url = https://github.com/iscar-ucm/xdevs.cpp.git
+[submodule "simulators/xdevs.java"]
+	path = simulators/xdevs.java
+	url = https://github.com/iscar-ucm/xdevs.java.git
+[submodule "simulators/xdevs.py"]
+	path = simulators/xdevs.py
+	url = https://github.com/iscar-ucm/xdevs.py.git
+[submodule "simulators/pythonpdevs"]
+	path = simulators/pythonpdevs
+	url = https://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git

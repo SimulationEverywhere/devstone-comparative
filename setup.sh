@@ -7,26 +7,24 @@ git checkout b6636f791d3fbff41b6b72e1d9e34ce18152065d
 # Set up Cadmium v2 repository
 cd ../cadmium_v2
 git checkout devel # TODO set to a specific commit when available
-# Set up CDBoost repository
-cd ../cdboost
-git checkout 6c5f4a457745a5da4f9bf2ddc5a5d46ff4f78fa2
 # Set up PythonPDEVS repository
 cd ../pythonpdevs
-git checkout 190a70532a96a76445b007c4e0f9cb5a4ce03e55
+git checkout 50164a92c6
 cd ../..
 # Set up xDEVS C repository
 cd ../xdevs.c
 git checkout 9c2a54ddd671a790528f6ba4d5a71c2732a431dd
 # Set up xDEVS C++ repository
-# cd ../xdevs-c++
-# git checkout bdb8c72dc25d7793665e7146b9d17f70b5a12db0
+cd ../xdevs.cpp
+git checkout 4a5b9cf7b6498e88e760dfba177a761240999955
+# TODO xDEVS C#
 # TODO xDEVS Go
 # Set up xDEVS Java repository
-# cd ../xdevs-java
-# git checkout a180827f9bdfc3f44d9f1cc207294d8552e2882d
+cd ../xdevs.java
+git checkout 9482cf31a873b63f529aa328e913ade9e8edad55
 # Set up xDEVS Python repository
-# cd ../xdevs-python
-# git checkout e578d581452394556bb0a85f03f5427fd5e72857
+cd ../xdevs.py
+git checkout 143541d23c48c21f8b2380bdd966384363d306b5
 # Set up xDEVS Rust repository
 cd ../xdevs.rs
 git checkout 9105a2ebbfb176c7333e3765ac2c79d52a2cc03b
@@ -42,27 +40,27 @@ cmake --build build/ --target devstone
 cd ../cadmium
 cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
 cmake --build build/ --target devstone
-# Compile DEVStone for CDBoost
-cd ../cdboost
-cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
-cmake --build build/ --target devstone
 # Compile DEVStone for Cadmium v2
 cd ../../simulators/cadmium_v2
 cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
 cmake --build build/ --target main_devstone parallel_main_devstone
-# build PythonPDEVS
+# Install PythonPDEVS
 cd ../pythonpdevs/src
 python3 setup.py install --user
-# Set up xDEVS C++ project
-# cd ../../xdevs-c++/src/xdevs/examples/DevStone/
-# make
+# Compile DEVStone for xDEVS C
+cd ../../xdevs.c/examples/devstone/
+make
+# Compile DEVStone for xDEVS C++
+cd ../../../xdevs.cpp/src/xdevs/examples/DevStone/
+make
+# TODO xDEVS C#
 # TODO xDEVS Go
 # Compile xDEVS java
-cd ../../simulators/xdevs-java
+cd ../../../../../simulators/xdevs.java
 find -name "*.java" | grep src/* > sources.txt
 javac @sources.txt -encoding ISO-8859-1 -d out
-# build xDEVS Python
-cd ../xdevs-python
+# Install xDEVS Python
+cd ../xdevs.py
 python3 setup.py install
 # Compile DEVStone for xDEVS Rust
 cd ../xdevs.rs
