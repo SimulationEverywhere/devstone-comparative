@@ -14,6 +14,9 @@ git checkout 6c5f4a457745a5da4f9bf2ddc5a5d46ff4f78fa2
 cd ../pythonpdevs
 git checkout 190a70532a96a76445b007c4e0f9cb5a4ce03e55
 cd ../..
+# Set up xDEVS C repository
+cd ../xdevs.c
+git checkout 9c2a54ddd671a790528f6ba4d5a71c2732a431dd
 # Set up xDEVS C++ repository
 # cd ../xdevs-c++
 # git checkout bdb8c72dc25d7793665e7146b9d17f70b5a12db0

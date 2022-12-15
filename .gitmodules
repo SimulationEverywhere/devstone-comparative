@@ -1,20 +1,6 @@
-[submodule "xdevs-java"]
-	path = simulators/xdevs-java
-	url = https://github.com/jlrisco/xdevs.git
-	branch = java
-[submodule "xdevs-python"]
-	path = simulators/xdevs-python
-	url = https://github.com/jlrisco/xdevs.git
-	branch = perfdevs
 [submodule "cadmium"]
 	path = simulators/cadmium
 	url = https://github.com/SimulationEverywhere/cadmium.git
-[submodule "cdboost"]
-	path = simulators/cdboost
-	url = https://github.com/SimulationEverywhere/cdboost.git
-[submodule "simulators/xdevs-c++"]
-	path = simulators/xdevs-c++
-	url = https://github.com/iscar-ucm/xdevs.git
 [submodule "simulators/cadmium_v2"]
 	path = simulators/cadmium_v2
 	url = https://github.com/SimulationEverywhere/cadmium_v2.git
