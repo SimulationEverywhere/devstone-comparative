@@ -21,3 +21,6 @@
 [submodule "simulators/xdevs.rs"]
 	path = simulators/xdevs.rs
 	url = https://github.com/iscar-ucm/xdevs.rs.git
+[submodule "simulators/xdevs.c"]
+	path = simulators/xdevs.c
+	url = https://github.com/iscar-ucm/xdevs.c.git
