@@ -16,7 +16,7 @@ RE_SIM_TIMES = r"Model creation time: ?([0-9.e-]+) ?.*Engine set ?up time: ?([0-
 COMMANDS = {
     "adevs": "devstone/adevs/bin/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
     "cadmium": {
-        "v1": "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles}",
+        "v1": "devstone/cadmium/build/cadmium-dynamic-devstone --kind={model_type} --width={width} --depth={depth} --int-cycles={int_cycles} --ext-cycles={ext_cycles}",
         "v2": {
             "sequential": "simulators/cadmium_v2/bin/main_devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
             "parallel": "simulators/cadmium_v2/bin/parallel_main_devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
@@ -24,8 +24,8 @@ COMMANDS = {
     },
     "pypdevs": {
         "standard": {
-            "python": "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
-            "pypy": "pypy3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+            "python": "python3 devstone/pythonpdevs/main.py -m {model_type} -w {width} -d {depth} -i {int_cycles} -e {ext_cycles}",
+            "pypy": "pypy3 devstone/pythonpdevs/main.py -m {model_type} -w {width} -d {depth} -i {int_cycles} -e {ext_cycles}",
         },
         "minimal": {
             "python": "python3 devstone/pythonpdevs-minimal/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
@@ -33,14 +33,14 @@ COMMANDS = {
         },
     },
     "xdevs": {
-        "c": "simulators/xdevs.c",
-        "cpp": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",  # TODO
+        "c": "simulators/xdevs.c/examples/devstone/devstone -w {width} -d {depth} -b {model_type} -m 1",
+        "cpp": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",
         # "go": ,  # TODO add this
         "java": {
             "sequential": "java -cp simulators/xdevs.java/target/xdevs-2.0.1-jar-with-dependencies.jar xdevs.lib.performance.DevStoneSimulation --model={model_type} --width={width} --depth={depth} --delay-distribution=Constant-{int_cycles} --coordinator=Coordinator",
             "parallel": "java -cp simulators/xdevs.java/target/xdevs-2.0.1-jar-with-dependencies.jar xdevs.lib.performance.DevStoneSimulation --model={model_type} --width={width} --depth={depth} --delay-distribution=Constant-{int_cycles} --coordinator=CoordinatorParallel",
         },
-        "py": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",  # TODO
+        "py": "python3 simulators/xdevs.py/xdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",  # TODO
         "rs": "cargo run --release --manifest-path simulators/xdevs.rs/Cargo.toml {model_type} {width} {depth} {int_cycles} {ext_cycles}",
     },
 }

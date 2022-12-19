@@ -23,7 +23,7 @@ cd ../xdevs.java
 git checkout 9482cf31a873b63f529aa328e913ade9e8edad55
 # Set up xDEVS Python repository
 cd ../xdevs.py
-git checkout 143541d23c48c21f8b2380bdd966384363d306b5
+git checkout b53a6f170350af8296af43d1b2334e173e95990c
 # Set up xDEVS Rust repository
 cd ../xdevs.rs
 git checkout 9105a2ebbfb176c7333e3765ac2c79d52a2cc03b
@@ -45,7 +45,7 @@ cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Release
 cmake --build build/ --target main_devstone parallel_main_devstone
 # Install PythonPDEVS
 cd ../pythonpdevs/src
-python3 setup.py install --user
+python3 setup.py install --user  # TODO this fails
 # Compile DEVStone for xDEVS C
 cd ../../xdevs.c/examples/devstone/
 make
