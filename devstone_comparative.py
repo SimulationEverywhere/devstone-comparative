@@ -22,7 +22,6 @@ COMMANDS = {
             "parallel": "simulators/cadmium_v2/bin/parallel_main_devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
         },
     },
-    "cdboost": "devstone/cdboost/build/cdboost-devstone --kind={model_type} --depth={depth} --width={width} --int-cycles={int_cycles} --ext-cycles={ext_cycles} --event-list=events_devstone.txt",
     "pypdevs": {
         "standard": {
             "python": "python3 devstone/pythonpdevs/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
@@ -34,13 +33,14 @@ COMMANDS = {
         },
     },
     "xdevs": {
-        "cpp": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",
+        "c": "simulators/xdevs.c",
+        "cpp": "simulators/xdevs-c++/src/xdevs/examples/DevStone/DevStone -w {width} -d {depth} -b {model_type} -m 1",  # TODO
         # "go": ,  # TODO add this
         "java": {
-            "sequential": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} coord false",
-            "parallel": "java -classpath simulators/xdevs-java/out/ xdevs.core.devstone.DEVStone {model_type} {depth} {width} {int_cycles} {ext_cycles} parallel false",
+            "sequential": "java -cp simulators/xdevs.java/target/xdevs-2.0.1-jar-with-dependencies.jar xdevs.lib.performance.DevStoneSimulation --model={model_type} --width={width} --depth={depth} --delay-distribution=Constant-{int_cycles} --coordinator=Coordinator",
+            "parallel": "java -cp simulators/xdevs.java/target/xdevs-2.0.1-jar-with-dependencies.jar xdevs.lib.performance.DevStoneSimulation --model={model_type} --width={width} --depth={depth} --delay-distribution=Constant-{int_cycles} --coordinator=CoordinatorParallel",
         },
-        "py": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",
+        "py": "python3 simulators/xdevs-python/perfdevs/examples/devstone/main.py -m {model_type} -d {depth} -w {width} -i {int_cycles} -e {ext_cycles}",  # TODO
         "rs": "cargo run --release --manifest-path simulators/xdevs.rs/Cargo.toml {model_type} {width} {depth} {int_cycles} {ext_cycles}",
     },
 }

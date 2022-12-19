@@ -10,7 +10,6 @@ git checkout devel # TODO set to a specific commit when available
 # Set up PythonPDEVS repository
 cd ../pythonpdevs
 git checkout 50164a92c6
-cd ../..
 # Set up xDEVS C repository
 cd ../xdevs.c
 git checkout 9c2a54ddd671a790528f6ba4d5a71c2732a431dd
@@ -56,9 +55,10 @@ make
 # TODO xDEVS C#
 # TODO xDEVS Go
 # Compile xDEVS java
-cd ../../../../../simulators/xdevs.java
-find -name "*.java" | grep src/* > sources.txt
-javac @sources.txt -encoding ISO-8859-1 -d out
+cd ../../../../../xdevs.java
+mvn clean
+mvn compile
+mvn package
 # Install xDEVS Python
 cd ../xdevs.py
 python3 setup.py install
