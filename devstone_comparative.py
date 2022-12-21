@@ -68,7 +68,7 @@ def parse_args():
     parser.add_argument('-a', '--include_engines', help='Add specific engines to perform the comparative')
     parser.add_argument('-r', '--exclude_engines', help='Exclude specific engines from the comparative')
     parser.add_argument('-o', '--out-file', help='Output file path')
-    parser.add_argument('-p', '--params', help='Specify params in a condensed form: d1-w1-ic1-ec1, d2-w2-ic2-ec2...')
+    parser.add_argument('-p', '--params', help='Specify params in a condensed form: w1-d1-ic1-ec1, w2-d2-ic2-ec2...')
 
     args = parser.parse_args()
 
@@ -77,14 +77,13 @@ def parse_args():
     else:
         args.model_types = list(DEFAULT_MODEL_TYPES)
 
-    params = []
     if args.params:
         params = [x.strip().split("-") for x in args.params.split(",")]
         # args.params = [x.strip().split("-") for x in args.params.split(",")]
     elif args.depth and args.width:
         int_cycles = args.int_cycles or 0
         ext_cycles = args.ext_cycles or 0
-        params = [(args.depth, args.width, int_cycles, ext_cycles)]
+        params = [(args.width, args.depth, int_cycles, ext_cycles)]
         # args.params = ((args.depth, args.width, int_cycles, ext_cycles),)
     else:
         params = list(DEFAULT_PARAMS)
@@ -177,7 +176,7 @@ def execute_cmd(cmd, regex, csv_writer):
 
     # Write results into output file
     row = (
-    engine, i_exec, model_type, depth, width, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
+    engine, i_exec, model_type, width, depth, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
     csv_writer.writerow(row)
 
 
@@ -191,13 +190,13 @@ if __name__ == "__main__":
 
     with open(args.out_file, "w") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';')
-        csv_writer.writerow(("engine", "iter", "model", "depth", "width", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
+        csv_writer.writerow(("engine", "iter", "model", "width", "depth", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
 
         for engine, engine_cmd in args.commands.items():
             engine_regex = args.regex[engine]
             for params in args.params:
-                model_type, depth, width, int_cycles, ext_cycles = params
-                engine_cmd_f = engine_cmd.format(model_type=model_type, depth=depth, width=width,
+                model_type, width, depth, int_cycles, ext_cycles = params
+                engine_cmd_f = engine_cmd.format(model_type=model_type, width=width, depth=depth,
                                                  int_cycles=int_cycles, ext_cycles=ext_cycles)
                 if not engine_cmd_f:
                     continue
