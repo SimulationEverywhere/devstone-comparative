@@ -1,5 +1,4 @@
 .idea/
-.log
 
 cmake-build-debug/
 build/
@@ -10,3 +9,6 @@ bin/
 __pycache__
 
 .python-version
+
+*.csv
+*.log

@@ -20,7 +20,7 @@ git checkout 4a5b9cf7b6498e88e760dfba177a761240999955
 # TODO xDEVS Go
 # Set up xDEVS Java repository
 cd ../xdevs.java
-git checkout 9482cf31a873b63f529aa328e913ade9e8edad55
+git checkout 94b7d15ab3e79220e8145f9576e69948db4b4fb6
 # Set up xDEVS Python repository
 cd ../xdevs.py
 git checkout b53a6f170350af8296af43d1b2334e173e95990c
