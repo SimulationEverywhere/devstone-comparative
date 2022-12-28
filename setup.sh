@@ -63,5 +63,5 @@ mvn package
 cd ../xdevs.py || exit
 python3 setup.py install
 # Compile DEVStone for xDEVS Rust
-cd ../xdevs.rs || exits
+cd ../xdevs.rs || exit
 cargo build --release
