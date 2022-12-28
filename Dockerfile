@@ -5,12 +5,14 @@ RUN apt-get update && apt-get install -y \
   cmake \
   curl \
   git \
-  openjdk-11-jdk-headless \
+  default-jdk \
   libboost-all-dev \
-  python3.8 \
+  maven \
+  python3 \
   python3-pip \
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN source "$HOME/.cargo/env"
 RUN rustup update
 RUN pip3 install setuptools flask
 
