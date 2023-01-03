@@ -175,8 +175,7 @@ def execute_cmd(cmd, regex, csv_writer):
     total_time = sum((model_time, engine_time, sim_time))
 
     # Write results into output file
-    row = (
-    engine, i_exec, model_type, width, depth, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
+    row = (engine, i_exec, model_type, width, depth, int_cycles, ext_cycles, model_time, engine_time, sim_time, total_time)
     csv_writer.writerow(row)
 
 
@@ -203,3 +202,4 @@ if __name__ == "__main__":
                 for i_exec in range(args.num_rep):
                     print(f'({i_exec}) {engine_cmd_f}')
                     execute_cmd(engine_cmd_f, engine_regex, csv_writer)
+                csv_file.flush()
