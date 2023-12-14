@@ -12,6 +12,45 @@ DEFAULT_MODEL_TYPES = ("LI", "HI", "HO", "HOmod")
 DEFAULT_MAX_TIME = 1e10
 DEFAULT_NUM_REPS = 30
 
+PRELAUNCH_TASKS = {
+    "adevs": [
+        "cmake -S devstone/adevs/ -B devstone/adevs/build/ -D CMAKE_BUILD_TYPE=Release",
+        "cmake --build devstone/adevs/build/ --target devstone",
+    ],
+    "cadmium": {
+        "v1": [
+            "cmake -S devstone/cadmium/ -B devstone/cadmium/build/ -D CMAKE_BUILD_TYPE=Release",
+            "cmake --build devstone/cadmium/build/ --target devstone",
+        ],
+        "v2": {
+            "sequential": [
+                "cmake -S simulators/cadmium_v2/ -B simulators/cadmium_v2/build/ -D CMAKE_BUILD_TYPE=Release",
+                "cmake --build simulators/cadmium_v2/build/ --target main_devstone",
+            ],
+            "parallel": [
+                "cmake -S simulators/cadmium_v2/ -B simulators/cadmium_v2/build/ -D CMAKE_BUILD_TYPE=Release",
+                "cmake --build simulators/cadmium_v2/build/ --target parallel_main_devstone",
+            ],
+        },
+    },
+    "xdevs": {
+        "c": ["cd simulators/xdevs.c/ && make"],
+        "cpp": ["cd simulators/xdevs.cpp/ && make"],
+        "java": {
+            "sequential": ["cd simulators/xdevs.java/ && mvn clean && mvn compile && mvn package"],
+            "parallel": ["cd simulators/xdevs.java/ && mvn clean && mvn compile && mvn package"],
+        },
+        "rs": {
+            "old": ["cargo build --manifest-path simulators/xdevs.rs/Cargo.toml --release"],
+            "new": {
+                "sequential": ["cargo build --manifest-path simulators/xdevs.rs-new/Cargo.toml --release  --example devstone"],
+                "parallel": ["cargo build --manifest-path simulators/xdevs.rs-new/Cargo.toml --release --features par_all_no_couplings --example devstone"],
+                "fullparallel": ["cargo build --manifest-path simulators/xdevs.rs-new/Cargo.toml --release --features par_all --example devstone"],
+            }
+        },
+    },
+}
+
 COMMANDS = {
     "adevs": "devstone/adevs/bin/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
     "cadmium": {
@@ -40,7 +79,14 @@ COMMANDS = {
             "parallel": "java -cp simulators/xdevs.java/target/xdevs-2.0.3-jar-with-dependencies.jar xdevs.lib.performance.DevStoneSimulation --model={model_type} --width={width} --depth={depth} --delay-distribution=Constant-{int_cycles} --coordinator=CoordinatorParallel",
         },
         "py": "python3 simulators/xdevs.py/xdevs/examples/devstone/devstone.py {model_type} {width} {depth} {int_cycles} {ext_cycles}",
-        "rs": "simulators/xdevs.rs/target/release/xdevs {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+        "rs": {
+            "old": "simulators/xdevs.rs/target/release/xdevs {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+            "new": {
+                "sequential": "simulators/xdevs.rs-new/target/release/examples/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+                "parallel": "simulators/xdevs.rs-new/target/release/examples/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+                "fullparallel": "simulators/xdevs.rs-new/target/release/examples/devstone {model_type} {width} {depth} {int_cycles} {ext_cycles}",
+            }
+        },
     },
 }
 
@@ -56,6 +102,7 @@ def serialize_simengines(res: list[str], prefix: str, flavors: str | dict):
         for key, val in flavors.items():
             new_prefix = f'{prefix}-{key}' if prefix else key
             serialize_simengines(res, new_prefix, val)
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script to compare DEVStone implementations with different engines')
@@ -97,30 +144,44 @@ def parse_args():
         else:
             raise ValueError(f'invalid number of params ({param})')
 
-    if args.include_engines:
-        args.include_engines = args.include_engines.split(',')
-        # TODO if an engine has more than one flavor, serialize here (e.g., xdevs -> all the xdevs stuff)
-    else:
-        args.include_engines = []
-        serialize_simengines(args.include_engines, '', COMMANDS)
+    engines = args.include_engines.split(',') if args.include_engines else list(COMMANDS.keys())
+    args.include_engines = []
+    for eng in engines:
+        commands = COMMANDS
+        for s in eng.split('-'):
+            commands = commands.get(s, dict())
+        subengines = []
+        serialize_simengines(subengines, '', commands)
+        if not subengines:
+            raise RuntimeError(f'unknown simulation engine {eng}')
+        subengines = [f'{eng}-{x}' if x else f'{eng}' for x in subengines]
+        args.include_engines.extend(subengines)
+
     if args.exclude_engines:
         args.include_engines = [x for x in args.include_engines if x not in args.exclude_engines.split(",")]
 
+    args.prelaunch = {}
     args.commands = {}
     args.regex = {}
     for eng in args.include_engines:
+        prelaunch = PRELAUNCH_TASKS
         cmd = COMMANDS
         regex = CUSTOM_RE
         for s in eng.split('-'):
+            if isinstance(prelaunch, dict):
+                prelaunch = prelaunch.get(s, dict())
             cmd = cmd.get(s, dict())
             if not isinstance(regex, str):
                 regex = regex.get(s, DEFAULT_RE)
+        if isinstance(prelaunch, dict):
+            prelaunch = None
         if not cmd:
             raise RuntimeError(f'unknown simulation engine {eng}')
         if isinstance(cmd, dict):
             # TODO instead of this, serialize all the flavors of the engine
             raise RuntimeError(f'There are more than one flavor for the engine {eng}')
         else:
+            args.prelaunch[eng] = prelaunch
             args.commands[eng] = cmd
             args.regex[eng] = regex
 
@@ -131,6 +192,15 @@ def parse_args():
         args.out_file = "devstone_%de_%dp_%d.csv" % (len(args.include_engines), len(args.params), int(time.time()))
 
     return args
+
+
+def execute_prelaunch(cmd):
+    try:
+        result = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
+    except Exception as e:
+        print(f"Error executing prelaunch command. ({str(e)})")
+        return
+    print(result.stdout)
 
 
 def execute_cmd(cmd, regex, csv_writer):
@@ -192,6 +262,11 @@ if __name__ == "__main__":
         csv_writer.writerow(("engine", "iter", "model", "width", "depth", "int_delay", "ext_delay", "model_time", "runner_time", "sim_time", "total_time"))
 
         for engine, engine_cmd in args.commands.items():
+            engine_prelaunch = args.prelaunch[engine]
+            if engine_prelaunch is not None:
+                print(f'({engine}) executing prelaunch tasks...')
+                for prelaunch_cmd in engine_prelaunch:
+                    execute_prelaunch(prelaunch_cmd)
             engine_regex = args.regex[engine]
             for params in args.params:
                 model_type, width, depth, int_cycles, ext_cycles = params

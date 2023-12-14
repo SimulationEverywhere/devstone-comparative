@@ -22,3 +22,6 @@
 [submodule "simulators/pythonpdevs"]
 	path = simulators/pythonpdevs
 	url = https://msdl.uantwerpen.be/git/yentl/PythonPDEVS.git
+[submodule "simulators/xdevs.rs-new"]
+	path = simulators/xdevs.rs-new
+	url = git@github.com:iscar-ucm/xdevs.rs.git
